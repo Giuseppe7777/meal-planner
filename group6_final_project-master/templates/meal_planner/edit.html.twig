@@ -3,13 +3,15 @@
 {% block title %}Edit MealPlanner{% endblock %}
 
 {% block body %}
-    <h1>Edit MealPlanner</h1>
+    <div class="container mb-5">
+        <h1>Edit MealPlanner</h1>
 
-    {% include 'components/_filter_mealplanneredit.html.twig' %}
+        {% include 'components/_filter_mealplanneredit.html.twig' %}
 
-    {{ include('meal_planner/_form.html.twig', {'button_label': 'Update'}) }}
+        <div class="mb-2">{{ include('meal_planner/_form.html.twig', {'button_label': 'Update'}) }}</div>
 
-    <a class="btn btn-details" href="{{ path('app_meal_planner_index') }}">Back to list</a>
+        <div class="mb-2"><a class="btn btn-details" href="{{ path('app_meal_planner_index') }}">Back to list</a></div>
 
-    {{ include('meal_planner/_delete_form.html.twig') }}
+        {{ include('meal_planner/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

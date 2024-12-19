@@ -1,4 +1,54 @@
-{{ form_start(form) }}
+{# {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-success">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+    <button class="btn {{ button_label|default('Save') == 'Save' ? 'btn-details' : 'btn-warning' }}">
+        {{ button_label|default('Save') }}
+    </button>
+{{ form_end(form) }} #}
+
+{# ================================================================== #}
+{# ================================================================== #}
+
+{{ form_start(form) }}
+
+<div class="meal-planner-form">
+
+    <div class="form-group date-picker-section">
+        <label for="chosen_date" class="date-picker-label">Chosen date</label>
+        <div class="date-picker-wrapper">
+            {{ form_widget(form.chosen_date, {
+                'attr': {'class': 'date-picker-input'}
+            }) }}
+        </div>
+    </div>
+
+
+    <div class="meal-chosen-section">
+        <label for="meal_chosen" class="meal-chosen-label">Meal chosen</label>
+        <div id="meal_chosen" class="meal-chosen-wrapper">
+            {% for recipe in recipes %}
+                <div class="meal-chosen-item">
+                    <input 
+                        type="checkbox" 
+                        id="recipe_{{ recipe.id }}" 
+                        name="meal_chosen[]" 
+                        value="{{ recipe.id }}"
+                        {% if recipe in meal_planner.getMealChosen %}checked{% endif %}>
+                    <label for="recipe_{{ recipe.id }}" class="meal-chosen-item-label">{{ recipe.name }}</label>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="form-actions">
+        <button class="btn {{ button_label|default('Save') == 'Save' ? 'btn-details' : 'btn-warning' }}">
+            {{ button_label|default('Save') }}
+        </button>
+    </div>
+</div>
+
+{{ form_end(form) }} 
+
+{# ================================================================== #}
+{# ================================================================== #}
+
