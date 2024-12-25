@@ -251,6 +251,15 @@ public function edit(
     $form->handleRequest($request);
 
     if ($form->isSubmitted() && $form->isValid()) {
+        $chosenRecipes = $request->request->all('meal_chosen');
+        $mealPlanner->getMealChosen()->clear();
+
+        foreach ($chosenRecipes as $recipeId) {
+            $recipe = $recipeRepository->find($recipeId);
+            if ($recipe) {
+                $mealPlanner->addMealChosen($recipe);
+            }
+        }
         $entityManager->flush();
 
         return $this->redirectToRoute('app_meal_planner_index', [], Response::HTTP_SEE_OTHER);
