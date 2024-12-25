@@ -86,9 +86,6 @@ final class MealPlannerController extends AbstractController
         ]);
     }
 
-
-
-
     #[Route('/{id}', name: 'app_meal_planner_show', methods: ['GET'])]
     public function show(MealPlanner $mealPlanner): Response
     {
@@ -96,118 +93,6 @@ final class MealPlannerController extends AbstractController
             'meal_planner' => $mealPlanner,
         ]);
     }
-
-
-
-//     #[Route('/{id}/edit', name: 'app_meal_planner_edit', methods: ['GET', 'POST'])]
-//     public function edit(Request $request, MealPlanner $mealPlanner, EntityManagerInterface $entityManager, RecipeRepository $recipeRepository): Response
-//     {
-
-//         $type = $request->query->get('type');
-//         $maxCaloriesInput = $request->query->get('max_calories'); 
-//         $maxCalories = is_numeric($maxCaloriesInput) ? (int) $maxCaloriesInput : null; 
-
-//         $user=$this->getUser();
-
-//         if (!$type && !$maxCalories) {
-//             $approvedRecipes = $recipeRepository->findBy(["status"=>"1"]);
-//         } else {            
-//             $approvedRecipes = $recipeRepository->findByFilters($type, $maxCalories);
-//         }
-
-//            // approved recipies from current user in session
-//             if ($user) {
-//             if (!$type && !$maxCalories) {
-//                 $userRecipes = $recipeRepository->findBy([
-//                     'status' => true,
-//                     'author' => $user,
-//                 ]);
-//             } else {
-//                 $userRecipes = $recipeRepository->findByFiltersAndUser($type, $maxCalories, $user);
-//             }
-
-
-//         // $form = $this->createForm(MealPlannerType::class, $mealPlanner);
-        
-//         $form = $this->createForm(MealPlannerType::class, $mealPlanner, [
-//             'approved_recipes' => $approvedRecipes
-//         ]);
-//         $form->handleRequest($request);
-
-//         if ($form->isSubmitted() && $form->isValid()) {
-        
-//             $entityManager->flush();
-
-//             return $this->redirectToRoute('app_meal_planner_index', [], Response::HTTP_SEE_OTHER);
-//         }
-
-//         return $this->render('meal_planner/edit.html.twig', [
-//             'meal_planner' => $mealPlanner,
-//             'form' => $form,
-//             'type' => $type
-//         ]);
-//     }
-// }
-
-
-// ====================================================
-
-
-// #[Route('/{id}/edit', name: 'app_meal_planner_edit', methods: ['GET', 'POST'])]
-// public function edit(
-//     Request $request,
-//     MealPlanner $mealPlanner,
-//     EntityManagerInterface $entityManager,
-//     RecipeRepository $recipeRepository
-// ): Response {
-//     $type = $request->query->get('type'); 
-//     $maxCaloriesInput = $request->query->get('max_calories'); 
-//     $maxCalories = is_numeric($maxCaloriesInput) ? (int) $maxCaloriesInput : null; 
-
-//     $user = $this->getUser(); 
-
-
-//     if (!$type && !$maxCalories) {
-//         $approvedRecipes = $recipeRepository->findBy(['status' => true]);
-//     } else {
-//         $approvedRecipes = $recipeRepository->findByFilters($type, $maxCalories);
-//     }
-
-
-//     $userRecipes = [];
-//     if ($user) {
-//         if (!$type && !$maxCalories) {
-//             $userRecipes = $recipeRepository->findBy([
-//                 'status' => true,
-//                 'author' => $user,
-//             ]);
-//         } else {
-//             $userRecipes = $recipeRepository->findByFiltersAndUser($type, $maxCalories, $user);
-//         }
-//     }
-
-
-//     $form = $this->createForm(MealPlannerType::class, $mealPlanner, [
-//         'approved_recipes' => $approvedRecipes,
-//     ]);
-//     $form->handleRequest($request);
-
-
-//     if ($form->isSubmitted() && $form->isValid()) {
-//         $entityManager->flush();
-
-//         return $this->redirectToRoute('app_meal_planner_index', [], Response::HTTP_SEE_OTHER);
-//     }
-
-
-//     return $this->render('meal_planner/edit.html.twig', [
-//         'meal_planner' => $mealPlanner,
-//         'form' => $form->createView(),
-//         'recipes' => $approvedRecipes, 
-//         'type' => $type,
-//         'max_calories' => $maxCalories, 
-//     ]);
-// }
 
 // =========================================================
 

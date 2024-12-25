@@ -15,7 +15,9 @@
 <div class="form-section mb-4">
     <div class="recipe-types d-flex gap-2">
         {% for child in form.type %}
-            <label class="btn type-button">
+            {# Отримуємо значення типу з поля форми #}
+            {% set type_value = child.vars.value %}
+            <label class="btn type-button tag--{{ type_value|lower }}">
                 {{ form_widget(child) }} {{ child.vars.label }}
             </label>
         {% endfor %}

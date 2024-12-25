@@ -256,14 +256,46 @@ h1 {
 
 .recipe-types .btn:hover {
   background-color: #b2b2b2;
-  color: #303030;
+  color: #fff;
 }
 
-.recipe-types .btn.active {
-  background-color: #CBFC02;
-  color: #303030;
-  border-color: #CBFC02;
+.recipe-types .tag--vegetarian.active {
+  background-color: #51cf66;
+  color: #fff;
+  border-color: #51cf66;
 }
+
+.recipe-types .tag--vegan.active {
+  background-color: #94d82d;
+  color: #fff;
+  border-color: #94d82d;
+}
+
+.recipe-types .tag--paleo.active {
+  background-color: #ffd43b;
+  color: #fff;
+  border-color: #ffd43b;
+}
+
+.recipe-types .tag--carnivore.active {
+  background-color: #ff6b6b;
+  color: #fff;
+  border-color: #ff6b6b;
+}
+
+.recipe-types .tag--pescatarian.active {
+  background-color: #216eff;
+  color: #fff;
+  border-color: #216eff;
+}
+
+.recipe-types .tag--low-carb.btn.active {
+  background-color: #cf9b00;
+  color: #fff;
+  border-color: #cf9b00;
+}
+
+
 
 .recipe-types input[type="radio"] {
   display: none; 
@@ -273,7 +305,7 @@ h1 {
   background-color: #CBFC02;
   color: #303030;
   border-color: #CBFC02;
-}
+} */
 
 /* ================== types button styling end ===================== */
 

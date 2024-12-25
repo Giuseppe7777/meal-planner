@@ -31,7 +31,7 @@
             <div class="recipe-types d-flex gap-2">
                 {% for label, value in availableTypes %}
                     <a href="#" 
-                        class="btn type-button {% if recipe.type == value %}active{% endif %}">
+                        class="btn type-button tag--{{ value|lower }} {% if recipe.type == value %}active{% endif %}">
                         {{ label }}
                     </a>
                 {% endfor %}
