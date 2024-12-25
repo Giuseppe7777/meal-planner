@@ -21,10 +21,10 @@ class UserType extends AbstractType
             // ->add('email')
             // ->add('password')
             ->add('first_name', TextType::class, array(
-                'attr' => ['pattern' => '[a-zA-Z]*']
+                'attr' => ['pattern' => '[a-zA-Z0-9\s.,/*-]*']
             ))
             ->add('last_name', TextType::class, array(
-                'attr' => ['pattern' => '[a-zA-Z]*']
+                'attr' => ['pattern' => '[a-zA-Z0-9\s.,/*-]*']
             ))
             ->add('imageFile', VichFileType::class, [
                 'required' => false,
@@ -36,7 +36,7 @@ class UserType extends AbstractType
                 'label' => 'Profile Picture',
                 'label_attr' => ["class" => "form-label"],
                 'constraints' => [
-                  new Image([
+                new Image([
                     'maxSize' => '2048k',
                     'mimeTypes' => [
                         'image/png',
@@ -46,9 +46,9 @@ class UserType extends AbstractType
                     'mimeTypesMessage' => 'Please upload a valid image (jpeg, png, gif, jpg)',
                     'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}',
         
-                  ])
+                    ])
                 ],
-              ])
+            ])
             ->add('phone_number', TelType::class, [
                 'required' => false,
                 'attr' => [

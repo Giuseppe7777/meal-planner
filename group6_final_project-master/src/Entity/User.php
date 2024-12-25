@@ -149,6 +149,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->first_name = $first_name;
 
         return $this;
+        
     }
 
     public function getLastName(): ?string
@@ -218,8 +219,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->imageFile;
     }
-
- 
 
     public function setImageSize(?int $imageSize): void
     {
