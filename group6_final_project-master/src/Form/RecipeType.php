@@ -34,7 +34,7 @@ class RecipeType extends AbstractType
                     'pattern' => '[a-zA-Z0-9\s.,/*-]*',
                     'placeholder' => 'List the ingredients'
                 ],
-                'label' => false,
+                'label' => false,     
                 'label_attr' => ['class' => 'form-label'],
             ))
             ->add('description', TextType::class, array(
