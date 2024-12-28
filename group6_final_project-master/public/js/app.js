@@ -1,3 +1,5 @@
+console.log('This log comes from public/js/app.js  🎉');
+
 document.addEventListener("turbo:load", () => {
     const alerts = document.querySelectorAll(".alert");
 
@@ -68,5 +70,92 @@ document.addEventListener('turbo:load', activateRecipeTypeButtons);
 
 // ================= adding illumination type button by creating recipe end ===================
 
+// ================= adding ingredients start ===================
+
+function activateIngredientManagement() {
+    const input = document.getElementById('recipe_ingredients'); // Поле вводу
+    const ingredientsField = document.querySelector('input[name="recipe[ingredients]"]'); // Текстове поле для Symfony
+    const list = document.getElementById('ingredients-list'); // Список інгредієнтів
+
+    if (!input || !ingredientsField || !list) return; // Перевіряємо наявність елементів
+
+    // Синхронізуємо поле з інгредієнтами, які вже є у списку при завантаженні
+    syncExistingIngredients();
+
+    // Додавання інгредієнта
+    document.getElementById('add-ingredient').addEventListener('click', function () {
+        const ingredient = input.value.trim();
+
+        if (ingredient) {
+            // Додаємо в список
+            const li = document.createElement('li');
+            li.className = 'list-group-item';
+            li.innerHTML = `
+                ${ingredient}
+                <button type="button" class="btn btn-danger btn-sm remove-ingredient">x</button>
+            `;
+            list.appendChild(li);
+
+            // Оновлюємо текстове поле для Symfony
+            updateIngredientsField();
+
+            // Очищаємо поле вводу
+            input.value = '';
+        }
+    });
+
+    // Видалення інгредієнта
+    list.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-ingredient')) {
+            e.target.closest('li').remove();
+            updateIngredientsField(); // Оновлюємо текстове поле після видалення
+        }
+    });
+
+    // Оновлення текстового поля `recipe[ingredients]`
+    function updateIngredientsField() {
+        const ingredients = [];
+        list.querySelectorAll('li').forEach(li => {
+            const ingredientText = li.firstChild.textContent.trim(); // Отримуємо текст інгредієнта
+            ingredients.push(ingredientText);
+        });
+        ingredientsField.value = ingredients.join(', '); // Форматуємо список через кому
+    }
+
+    // Синхронізуємо значення текстового поля з інгредієнтами зі списку
+    function syncExistingIngredients() {
+        const initialIngredients = ingredientsField.value.split(',').map(ingredient => ingredient.trim());
+        initialIngredients.forEach(ingredient => {
+            if (ingredient) {
+                const li = document.createElement('li');
+                li.className = 'list-group-item';
+                li.innerHTML = `
+                    ${ingredient}
+                    <button type="button" class="btn btn-danger btn-sm remove-ingredient">Remove</button>
+                `;
+                list.appendChild(li);
+            }
+        });
+        updateIngredientsField(); // Оновлюємо текстове поле після синхронізації
+    }
+
+    // Перевірка перед відправленням форми
+    document.querySelector('form').addEventListener('submit', function (e) {
+        updateIngredientsField(); // Оновлюємо поле перед відправленням форми
+
+        if (!ingredientsField.value.trim()) {
+            e.preventDefault(); // Зупиняємо відправку форми, якщо інгредієнти порожні
+            alert('Please add at least one ingredient.');
+        }
+    });
+}
+
+// Активуємо функцію при завантаженні сторінки та навігації через Turbo
+document.addEventListener('DOMContentLoaded', activateIngredientManagement);
+document.addEventListener('turbo:render', activateIngredientManagement);
+document.addEventListener('turbo:load', activateIngredientManagement);
+
+
+// ================= adding ingredients end ===================
 
 

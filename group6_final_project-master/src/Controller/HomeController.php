@@ -50,7 +50,7 @@ final class HomeController extends AbstractController
             $this->addFlash('success', 'Recipe has been submitted for approval.');
             
             return $this->redirectToRoute('app_approved_recipes', [], Response::HTTP_SEE_OTHER);
-        }        
+        }
 
         return $this->render('recipe/new.html.twig', [
             'recipe' => $recipe,

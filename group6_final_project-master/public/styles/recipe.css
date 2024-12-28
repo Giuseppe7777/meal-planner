@@ -230,7 +230,7 @@ h1 {
 .section-title {
   font-size: 18px;
   font-weight: 700;
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
 }
 
 .section-title-image {
@@ -309,6 +309,7 @@ h1 {
 
 /* ================== types button styling end ===================== */
 
+/* ================== ingredient start ===================== */
 
 #ingredient-input {
   flex: 1;
@@ -332,6 +333,7 @@ h1 {
 }
 
 #ingredients-list {
+  max-width: 522px;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -343,7 +345,6 @@ h1 {
   align-items: center;
   padding: 10px;
   background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
   border-radius: 5px;
   margin-bottom: 10px;
 }
@@ -354,7 +355,7 @@ h1 {
   color: white;
   font-size: 0.8rem;
   padding: 5px 10px;
-  border-radius: 5px;
+  border-radius: 50%;
   cursor: pointer;
 }
 
@@ -362,6 +363,7 @@ h1 {
   background-color: #c82333;
 }
 
+/* ================== ingredient end ===================== */
 
 /* ================ style form end ================== */
 
