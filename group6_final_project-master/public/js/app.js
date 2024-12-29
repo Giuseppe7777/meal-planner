@@ -79,22 +79,27 @@ function activateIngredientManagement() {
 
     if (!input || !ingredientsField || !list) return; // Перевіряємо наявність елементів
 
+    // Очищаємо список перед синхронізацією
+    list.innerHTML = ''; 
+
     // Синхронізуємо поле з інгредієнтами, які вже є у списку при завантаженні
     syncExistingIngredients();
 
     // Додавання інгредієнта
-    document.getElementById('add-ingredient').addEventListener('click', function () {
+    document.getElementById('add-ingredient').addEventListener('click', handleAddIngredient);
+
+    // Видалення інгредієнта
+    list.addEventListener('click', handleListClick);
+
+    // Перевірка перед відправленням форми
+    document.querySelector('form').addEventListener('submit', handleFormSubmit);
+
+    function handleAddIngredient() {
         const ingredient = input.value.trim();
 
         if (ingredient) {
             // Додаємо в список
-            const li = document.createElement('li');
-            li.className = 'list-group-item';
-            li.innerHTML = `
-                ${ingredient}
-                <button type="button" class="btn btn-danger btn-sm remove-ingredient">x</button>
-            `;
-            list.appendChild(li);
+            addIngredientToList(ingredient);
 
             // Оновлюємо текстове поле для Symfony
             updateIngredientsField();
@@ -102,52 +107,58 @@ function activateIngredientManagement() {
             // Очищаємо поле вводу
             input.value = '';
         }
-    });
+    }
 
-    // Видалення інгредієнта
-    list.addEventListener('click', function (e) {
+    function handleListClick(e) {
         if (e.target.classList.contains('remove-ingredient')) {
             e.target.closest('li').remove();
             updateIngredientsField(); // Оновлюємо текстове поле після видалення
         }
-    });
-
-    // Оновлення текстового поля `recipe[ingredients]`
-    function updateIngredientsField() {
-        const ingredients = [];
-        list.querySelectorAll('li').forEach(li => {
-            const ingredientText = li.firstChild.textContent.trim(); // Отримуємо текст інгредієнта
-            ingredients.push(ingredientText);
-        });
-        ingredientsField.value = ingredients.join(', '); // Форматуємо список через кому
     }
 
-    // Синхронізуємо значення текстового поля з інгредієнтами зі списку
-    function syncExistingIngredients() {
-        const initialIngredients = ingredientsField.value.split(',').map(ingredient => ingredient.trim());
-        initialIngredients.forEach(ingredient => {
-            if (ingredient) {
-                const li = document.createElement('li');
-                li.className = 'list-group-item';
-                li.innerHTML = `
-                    ${ingredient}
-                    <button type="button" class="btn btn-danger btn-sm remove-ingredient">Remove</button>
-                `;
-                list.appendChild(li);
-            }
-        });
-        updateIngredientsField(); // Оновлюємо текстове поле після синхронізації
-    }
-
-    // Перевірка перед відправленням форми
-    document.querySelector('form').addEventListener('submit', function (e) {
+    function handleFormSubmit(e) {
         updateIngredientsField(); // Оновлюємо поле перед відправленням форми
 
         if (!ingredientsField.value.trim()) {
             e.preventDefault(); // Зупиняємо відправку форми, якщо інгредієнти порожні
             alert('Please add at least one ingredient.');
         }
-    });
+    }
+
+    function addIngredientToList(ingredient) {
+        // Перевірка, чи інгредієнт вже є у списку
+        const existingItems = Array.from(list.querySelectorAll('li span.list-group-item__ingredient')).map(
+            span => span.textContent.trim()
+        );
+        if (existingItems.includes(ingredient)) return;
+
+        const li = document.createElement('li');
+        li.className = 'list-group-item';
+        li.innerHTML = `
+            <span class="list-group-item__ingredient">${ingredient}</span>
+            <button type="button" class="btn btn-danger btn-sm remove-ingredient">x</button>
+        `;
+        list.appendChild(li);
+    }
+
+    function updateIngredientsField() {
+        const ingredients = [];
+        list.querySelectorAll('li span.list-group-item__ingredient').forEach(span => {
+            const ingredientText = span.textContent.trim(); // Отримуємо текст із спана
+            ingredients.push(ingredientText);
+        });
+        ingredientsField.value = ingredients.join(', '); // Форматуємо список через кому
+    }
+
+    function syncExistingIngredients() {
+        const initialIngredients = ingredientsField.value.split(',').map(ingredient => ingredient.trim());
+        initialIngredients.forEach(ingredient => {
+            if (ingredient) {
+                addIngredientToList(ingredient);
+            }
+        });
+        updateIngredientsField(); // Оновлюємо текстове поле після синхронізації
+    }
 }
 
 // Активуємо функцію при завантаженні сторінки та навігації через Turbo
