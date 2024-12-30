@@ -30,10 +30,6 @@ class RecipeType extends AbstractType
             ))
             ->add('ingredients', TextType::class, array(
                 'required' => false,
-                'attr' => [
-                    'class' => 'form-control-ingredients mb-3',
-                    'placeholder' => 'List the ingredients'
-                ],
                 'label' => false,     
                 'label_attr' => ['class' => 'form-label'],
             ))

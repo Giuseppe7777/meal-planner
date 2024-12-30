@@ -27,17 +27,10 @@
 <div class="form-section mb-4">
     <h3 class="section-title">Ingredients</h3>
     <div id="ingredients-container">
-        {{ form_row(form.ingredients, {'attr': {'id': 'ingredient-input', 'class': 'form-control-ingredients mb-2', 'placeholder': 'Enter an ingredient'}}) }}
+        {{ form_row(form.ingredients, {'attr': {'class': 'form-control-ingredients mb-2', 'placeholder': 'Enter an ingredient'}}) }}
         <button type="button" id="add-ingredient" class="btn btn-secondary mb-3">Add Ingredient</button>
-        <ul id="ingredients-list">
-            {% for ingredient in form.ingredients.vars.data %}
-                <li class="list-group-item">
-                    {{ ingredient }}
-                    <button type="button" class="btn btn-danger btn-sm remove-ingredient">x</button>
-                    <input type="hidden" name="ingredients[]" value="{{ ingredient }}">
-                </li>
-            {% endfor %}
-        </ul>
+        <ul id="ingredients-list"></ul>
+        <div id="ingredients-error" class="text-danger mt-2" style="display: none;">Please add at least one ingredient.</div>
     </div>
 </div>
 

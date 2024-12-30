@@ -177,6 +177,17 @@ h1 {
 
 /* ================ flash-message start ================== */
 
+#ingredients-error {
+  opacity: 1; 
+  transition: opacity 2s ease; 
+}
+
+#ingredients-error.fade-out {
+  opacity: 0; 
+  transition: opacity 2s ease; 
+}
+
+
 .alert {
   border-radius: 30px;
   font-size: 1rem;
@@ -213,7 +224,7 @@ h1 {
   color: #000;
 }
 
-.fade-out {
+.alert.fade-out {
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }

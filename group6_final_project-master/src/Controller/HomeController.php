@@ -34,6 +34,7 @@ final class HomeController extends AbstractController
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
         $user = $this->getUser();
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('photo')->getData();
             if ($imageFile) {
