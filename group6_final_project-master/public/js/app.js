@@ -181,4 +181,51 @@ document.addEventListener('turbo:load', activateIngredientManagement);
 
 // ================= adding ingredients end ===================
 
+// function activareIngredientManager() {
+
+//     const input = document.getElementById('recipe_ingredients');
+//     const addButton = document.getElementById('add-ingredient');
+//     const list = document.getElementById('ingredients-list');
+
+//     if (!input || !addButton || !list){
+//         return
+//     };
+
+//     addButton.addEventListener('click', () => {
+//         const ingredient = input.value.trim();    
+        
+//         if (ingredient) {
+//             const li = document.createElement('li');
+//             li.className = 'list-group-item';
+
+//             const span = document.createElement('span');
+//             span.textContent = ingredient;
+//             span.className = 'list-group-item__ingredient';            
+            
+//             const removeButton = document.createElement('button');
+//             removeButton.textContent = 'x';
+//             removeButton.className = 'btn btn-danger btn-sm ms-2';
+
+//             li.appendChild(span);
+//             li.appendChild(removeButton);
+
+//             list.appendChild(li)
+//             input.value = '';    
+            
+//             console.log(list);            
+//         }
+//     })
+
+//     list.addEventListener('click', (event) => {
+//         if (event.target.tagName === 'BUTTON') {
+//             event.target.parentElement.remove();
+            
+//         }
+//     })
+
+// }
+
+// document.addEventListener('DOMContentLoaded', activareIngredientManager);
+
+
 
