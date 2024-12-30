@@ -120,7 +120,7 @@ function activateIngredientManagement() {
             const ingredientsContainer = document.getElementById('ingredients-container');
             ingredientsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
     
-            errorContainer.style.display = 'block';
+            errorContainer.style.display = 'inline-block';
             errorContainer.textContent = 'Please add at least one ingredient.';
 
             setTimeout(() => {

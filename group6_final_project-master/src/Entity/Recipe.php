@@ -21,7 +21,7 @@ class Recipe
     ];
 // ==========================================
 
-    #[ORM\Id]
+    #[ORM\Id] 
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
