@@ -359,14 +359,22 @@ h1 {
   margin: 0;
 }
 
-#ingredients-list .list-group-item {
+#ingredients-list .appear-animation {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all 0.5s ease; 
+}
+
+.list-group-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 10px; */
   background-color: #f8f9fa;
   border-radius: 5px;
   margin-bottom: 10px;
+  opacity: 1; 
+  transform: translateX(0);
+  transition: all 0.5s ease; 
 }
 
 #ingredients-list .list-group-item__ingredient {
@@ -399,6 +407,15 @@ h1 {
 
 #ingredients-list .btn-danger:hover {
   background-color: #c82333;
+}
+
+.remove-animation {
+  transform: translateX(-100%);
+  opacity: 0;
+  height: 0;
+  margin-bottom: 0;
+  padding: 0;
+  transition: all 0.5s ease;
 }
 
 /* ================== ingredient end ===================== */
