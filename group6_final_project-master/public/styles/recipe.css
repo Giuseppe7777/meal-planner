@@ -145,18 +145,18 @@ h1 {
 .file-label {
   display: inline-block;
   background-color: #f8f9fa;
-  color: #CBFC02;
+  color: #a2d00a;
   padding: 6px 12px;
   font-size: 14px;
   font-weight: bold;
-  border: 2px solid #CBFC02;
+  border: 2px solid #a2d00a;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .file-label:hover {
-  background-color: #CBFC02;
+  background-color: #a2d00a;
   color: #ffffff;
 }
 
