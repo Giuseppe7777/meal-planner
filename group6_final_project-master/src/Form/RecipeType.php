@@ -22,7 +22,7 @@ class RecipeType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => [
                     'class' => 'form-control-name mb-3', 
-                    'pattern' => '[a-zA-Z0-9\s.,/*-]*',
+                    'pattern' => '[a-zA-Z0-9\s.,\-]*',
                     'placeholder' => 'E.g. Spaghetti with Tomato Sauce'
                 ],
                 'label' => false,
@@ -36,7 +36,7 @@ class RecipeType extends AbstractType
             ->add('description', TextType::class, array(
                 'attr' => [
                     'class' => 'form-control-description mb-3',
-                    'pattern' => '[a-zA-Z0-9\s.,/*-]*',
+                    'pattern' => '[a-zA-Z0-9\s.,\-]*',
                     'placeholder' => 'Describe the recipe'
                 ],
                 'label' => false,
@@ -144,5 +144,3 @@ class RecipeType extends AbstractType
     }
 }
 
-
-// '[a-zA-Z0-9\s.,/*-]*'і

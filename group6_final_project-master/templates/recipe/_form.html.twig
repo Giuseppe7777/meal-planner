@@ -7,6 +7,7 @@
 
 {{ form_start(form) }}
 
+
 <div class="form-section mb-4">
     <h3 class="section-title">Recipe Name</h3>
     {{ form_row(form.name) }}
@@ -27,11 +28,16 @@
 <div class="form-section mb-4">
     <h3 class="section-title">Ingredients</h3>
     <div id="ingredients-container">
-        {{ form_row(form.ingredients, {'attr': {'class': 'form-control-ingredients mb-2', 'placeholder': 'Enter an ingredient'}}) }}
-        <button type="button" id="add-ingredient" class="btn btn-secondary mb-3">Add Ingredient</button>
-        <ul id="ingredients-list"></ul>
-        <div id="ingredients-error" class="ingredients-error-flash mt-2" style="display: none;"></div>
+        <button type="button" id="add-ingredient" class="plus-image">
+            <img src="{{ asset('pictures/plus.svg') }}">
+        </button>
+        <div class="ingredients-container__inner"> 
+            <p class="ingredients-container__subtitle">Ingredient</p>
+            {{ form_row(form.ingredients, {'attr': {'class': 'form-control-ingredients mb-2', 'placeholder': 'Enter an ingredient'}}) }}
+        </div> 
     </div>
+    <ul id="ingredients-list"></ul>
+    <div id="ingredients-error" class="ingredients-error-flash mt-2" style="display: none;"></div>
 </div>
 
 <div class="form-section mb-4">

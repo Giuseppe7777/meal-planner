@@ -134,6 +134,6 @@ final class RecipeController extends AbstractController
             $entityManager->flush();
         }
     
-        return $this->redirectToRoute('admin_app_recipe_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_app_pending', [], Response::HTTP_SEE_OTHER);
     }
 }

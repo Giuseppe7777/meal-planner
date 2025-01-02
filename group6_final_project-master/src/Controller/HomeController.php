@@ -103,6 +103,8 @@ final class HomeController extends AbstractController
             }
             $entityManager->flush();
 
+            $this->addFlash('success', 'Recipe has been updated.');
+
             return $this->redirectToRoute('app_approved_recipes', [], Response::HTTP_SEE_OTHER);
         }
 

@@ -47,12 +47,12 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('first_name', TextType::class, options: [
                 'attr' => [
-                    'pattern' => '[a-zA-Z0-9\s.,/*-]*',
+                    'pattern' => '[a-zA-Z0-9\s.,\-]*',
                     'class' => 'form-control'
                 ]
             ])
             ->add('last_name', TextType::class, array(
-                'attr' => ['pattern' => '[a-zA-Z0-9\s.,/*-]*', 'class' => 'form-control']
+                'attr' => ['pattern' => '[a-zA-Z0-9\s.,\-]*', 'class' => 'form-control']
             ))
             ->add('imageFile', VichFileType::class, [
                 'required' => false,
