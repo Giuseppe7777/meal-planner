@@ -21,10 +21,10 @@ class UserType extends AbstractType
             // ->add('email')
             // ->add('password')
             ->add('first_name', TextType::class, array(
-                'attr' => ['pattern' => '[a-zA-Z0-9\s.,\-]*']
+                'attr' => ['pattern' => '[a-zA-Z0-9\s.,\-\(\)]*']
             ))
             ->add('last_name', TextType::class, array(
-                'attr' => ['pattern' => '[a-zA-Z0-9\s.,\-]*']
+                'attr' => ['pattern' => '[a-zA-Z0-9\s.,\-\(\)]*']
             ))
             ->add('imageFile', VichFileType::class, [
                 'required' => false,

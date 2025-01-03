@@ -62,15 +62,40 @@ h1 {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+.form-control-description-wrapper {
+  padding-top: 50px;
+  padding-inline: 12px;
+  max-width: 1080px;
+  max-height: 256px;
+  border-radius: 18px;
+  border: 1px solid #C3C3C3;
+  background:#C3C3C333;  
+  position: relative;
+}
+
+.section-title--description {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  color: #343330;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+}
+
 .form-control-description {
-  width: 522px;
+  width: 989px;
+  height: 197px;
   border: 1px solid #C3C3C3; 
-  border-radius: 8px; 
+  border-radius: 18px; 
   padding: 10px 15px; 
   font-size: 1rem; 
   color: #303030; 
   background-color: #f9f9f9;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: none; 
+  overflow-y: auto; 
 }
 
 .form-control-calories {
@@ -249,8 +274,8 @@ h1 {
 
 .section-title {
   font-size: 18px;
-  font-weight: 700;
-  /* margin-bottom: 15px; */
+  font-weight: 800;
+  color: #343330;
 }
 
 .section-title-image {
@@ -415,17 +440,22 @@ h1 {
 } */
 
 #ingredients-list .btn-danger {
-  border: none;
-  background-color: #dc3545;
-  color: white;
-  font-size: 0.5rem;
-  padding: 4px 7px;
+  border: 2px solid  #ff6b6b; /* Жовто-зелена обводка */
+  background-color: transparent;
+  color:  #ff6b6b;;
+  font-size: 1rem;
+  line-height: 0;
+  padding: 10px 6px;
   border-radius: 50%;
   cursor: pointer;
+  box-shadow: 0 0 5px  #ff6b6b;/* Світіння */
+  transition: all 0.3s ease;
 }
 
 #ingredients-list .btn-danger:hover {
-  background-color: #c82333;
+  background-color:  #ff6b6b;
+  color: #fff;
+  box-shadow: 0 0 10px  #ff6b6b;  /* Посилення світіння */
 }
 
 .remove-animation {
@@ -483,7 +513,7 @@ h1 {
 
 .recipe-image__image {
   width: 100%;
-  height: auto;
+  height: 100%;
   max-height: 553px;
   object-fit: cover;
   border-radius: 18px;

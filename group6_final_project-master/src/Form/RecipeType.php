@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ class RecipeType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => [
                     'class' => 'form-control-name mb-3', 
-                    'pattern' => '[a-zA-Z0-9\s.,\-]*',
+                    'pattern' => '[a-zA-Z0-9\s.,\-\(\)]*',
                     'placeholder' => 'E.g. Spaghetti with Tomato Sauce'
                 ],
                 'label' => false,
@@ -33,11 +34,13 @@ class RecipeType extends AbstractType
                 'label' => false,     
                 'label_attr' => ['class' => 'form-label'],
             ))
-            ->add('description', TextType::class, array(
+            ->add('description', TextareaType::class, array(
                 'attr' => [
                     'class' => 'form-control-description mb-3',
-                    'pattern' => '[a-zA-Z0-9\s.,\-]*',
-                    'placeholder' => 'Describe the recipe'
+                    'pattern' => '[a-zA-Z0-9\s.,\-\(\)]*',
+                    'placeholder' => 'Describe the recipe',
+                    'rows' => 10, 
+                    'cols' => 50, 
                 ],
                 'label' => false,
                 'label_attr' => ['class' => 'form-label'],  

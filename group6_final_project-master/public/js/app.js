@@ -286,54 +286,6 @@ function initPage() {
 }
 
 
-// *******************************************************************************
-
-
-
-
-// Функція для спостереження за змінами #ingredients-container
-function observeIngredientsContainer() {
-    const target = document.getElementById('ingredients-container');
-
-    if (!target) {
-        console.log("Target #ingredients-container не знайдений.");
-        return;
-    }
-
-    // Функція обробки змін
-    const observerCallback = (mutationsList) => {
-        mutationsList.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                console.log(`Змінено стиль елемента #ingredients-container:`);
-                console.log(`Новий стиль:`, mutation.target.getAttribute('style'));
-            }
-        });
-    };
-
-    // Налаштування спостерігача
-    const observer = new MutationObserver(observerCallback);
-
-    observer.observe(target, {
-        attributes: true, // Відстежуємо зміни атрибутів
-        attributeFilter: ['style'], // Фільтруємо тільки зміни стилю
-    });
-
-    console.log("Observer initialized for #ingredients-container");
-}
-
-// Додай виклик функції у `DOMContentLoaded` чи `turbo:load`
-document.addEventListener('DOMContentLoaded', observeIngredientsContainer);
-document.addEventListener('turbo:load', observeIngredientsContainer);
-
-
-
-
-
-
-
-// *******************************************************************************
-
-
 // Handle alerts (fade out and remove)
 function handleAlerts() {
     const alerts = document.querySelectorAll(".alert");
