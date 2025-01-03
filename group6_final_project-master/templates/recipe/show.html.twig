@@ -39,9 +39,12 @@
             
             <div class="col-md-6 mb-3">
                 <h3 class="recipe-details__title">Ingredients</h3>
-                <div class="list-items">
-                        <p class="list-item-ingredient">{{ recipe.ingredients }}</p>
-                </div>
+                {% set ingredients = recipe.ingredients | split(',') %}
+                <ul class="ingredients-list">
+                    {% for ingredient in ingredients %}                        
+                    <li class="list-group-item">{{ ingredient | trim }}</li>
+                    {% endfor %}
+                </ul>
             </div>
 
             <div class="recipe-description mt-3">

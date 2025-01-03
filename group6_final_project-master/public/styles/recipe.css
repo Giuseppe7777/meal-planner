@@ -367,6 +367,11 @@ h1 {
   transition: all 0.5s ease; 
 }
 
+.ingredients-list {
+  margin: 0;
+  padding: 0;
+}
+
 .list-group-item {
   display: flex;
   justify-content: space-between;
@@ -377,6 +382,18 @@ h1 {
   opacity: 1; 
   transform: translateX(0);
   transition: all 0.5s ease; 
+  padding-left: 30px;
+}
+
+.list-group-item::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background-color: #CBFC02;
+  border-radius: 4px;
+  position: absolute;
+  top: 4px;
+  left: 0;
 }
 
 #ingredients-list .list-group-item__ingredient {
@@ -386,7 +403,7 @@ h1 {
   padding-left: 25px;
 }
 
-#ingredients-list .list-group-item__ingredient::before {
+/* #ingredients-list .list-group-item__ingredient::before {
   content: "";
   width: 6px;
   height: 6px;
@@ -395,7 +412,7 @@ h1 {
   position: absolute;
   top: 9px;
   left: 0;
-}
+} */
 
 #ingredients-list .btn-danger {
   border: none;
@@ -454,6 +471,7 @@ h1 {
   font-size: 22px;
   line-height: 1.5;
   font-weight: 800;
+  padding-left: 10px;
 }
 
 .recipe-image {
@@ -484,17 +502,6 @@ h1 {
   display: block;
   width: 240px;
   height: 130px;
-  border: 1px solid #c3c3c3;
-  border-radius: 18px;
-  padding: 20px 25px;
-  font-size: 18px;
-  font-weight: 500;
-}
-
-.list-item-ingredient {
-  display: block;
-  width: 400px;
-  height: 200px;
   border: 1px solid #c3c3c3;
   border-radius: 18px;
   padding: 20px 25px;
