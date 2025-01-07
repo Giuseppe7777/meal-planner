@@ -73,6 +73,16 @@ h1 {
   position: relative;
 }
 
+.form-control-description-wrapper--show {
+  padding-top: 20px;
+  padding-inline: 12px;
+  max-width: 1080px;
+  height: auto;
+  border-radius: 18px;
+  border: 1px solid #C3C3C3;
+  background:#C3C3C333;  
+}
+
 .section-title--description {
   position: absolute;
   top: 20px;
@@ -85,7 +95,7 @@ h1 {
 }
 
 .form-control-description {
-  width: 989px;
+  width: 90%;
   height: 197px;
   border: 1px solid #C3C3C3; 
   border-radius: 18px; 
@@ -94,6 +104,16 @@ h1 {
   color: #303030; 
   background-color: #f9f9f9;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  resize: none; 
+  overflow-y: auto; 
+}
+
+.form-control-description--show {
+  width: 90%;
+  height: auto; 
+  padding: 10px 15px; 
+  font-size: 1rem; 
+  color: #303030; 
   resize: none; 
   overflow-y: auto; 
 }

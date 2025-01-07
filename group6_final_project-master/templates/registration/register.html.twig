@@ -17,40 +17,11 @@
         {{ form_start(registrationForm) }}
         <div class="row justify-content-center">
             <div class="col-md-8 col-lg-6">
-             
-                    
-                    {# {% if field.vars.block_prefixes|last != 'hidden' %} #}
-                        {# {% if field.vars.name == 'agreeTerms' %}
-                            
-                            <div class="form-check mb-3">
-                                {{ form_widget(field, {'attr': {'class': 'form-check-input'}}) }}
-                                {{ form_label(field, 'I agree to the terms and conditions', {'label_attr': {'class': 'form-check-label'}}) }}
-                                {% if field.vars.errors|length > 0 %}
-                                    <div class="text-danger mt-1">
-                                        {{ form_errors(field) }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% else %}
-                            <div class="form-group mb-3">
-                                {{ form_label(field, null, {'label_attr': {'class': 'form-label'}}) }}
-                                {{ form_widget(field, {'attr': {'class': 'form-control'}}) }}
-                                {% if field.vars.errors|length > 0 %}
-                                    <div class="text-danger mt-1">
-                                        {{ form_errors(field) }}
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endif %} #}
-                    {# {% else %}
-                        {{ form_widget(field) }}
-                    {% endif %} #}
                     {{ form_widget(registrationForm) }}
                 <div class="d-grid">
                     <button type="submit" class="btn btn-primary btn-lg my-5">Register</button>
                 </div>
     {{ form_end(registrationForm) }}
-               
             </div>
         </div>
 

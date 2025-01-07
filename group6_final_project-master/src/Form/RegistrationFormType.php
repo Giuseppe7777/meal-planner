@@ -64,7 +64,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Profile Picture',
                 'label_attr' => ["class" => "form-label"],
                 'constraints' => [
-                  new Image([
+                    new Image([
                     'maxSize' => '2056k',
                     'mimeTypes' => [
                         'image/png',
@@ -72,11 +72,10 @@ class RegistrationFormType extends AbstractType
                         'image/jpeg',
                     ],
                     'mimeTypesMessage' => 'Please upload a valid image (jpeg, png, gif, jpg)',
-                    'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}',
-        
-                  ])
+                    'maxSizeMessage' => 'The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}',        
+                    ])
                 ],
-              ])
+            ])
 
             ->add('plainPassword', PasswordType::class, [
                 // instead of being set onto the object directly,

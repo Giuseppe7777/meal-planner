@@ -47,9 +47,11 @@
                 </ul>
             </div>
 
-            <div class="recipe-description mt-3">
-                <h3 class="recipe-details__title">Description</h3>
-                <p class="list-item-ingredient">{{ recipe.description }}</p>
+            <div class="recipe-description mt-5">
+                <div class="form-control-description-wrapper--show">
+                    <h3 class="recipe-details__title">Description</h3>
+                    <p class="form-control-description--show list-item-ingredient">{{ recipe.description|nl2br }}</p>
+                </div>
             </div>
         </div>
 

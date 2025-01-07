@@ -86,7 +86,7 @@
             </div>
             <div class="meal-detail">
                 <div class="label">Recipe description</div>
-                <div class="value">{{ recipe.description ?? 'No Description Available' }}</div>
+                <div class="value">{{ recipe.description|default('No Description Available')|nl2br }}</div>
             </div>
             <div class="meal-detail">
                 <div class="label">Recipe author</div>

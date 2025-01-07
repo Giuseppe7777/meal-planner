@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Service\UserFileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -31,9 +33,8 @@ class RegistrationController extends AbstractController
             // encode the plain password
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setBlocked(False);
-           
+
             // $imageFile = $form->get('photo')->getData();
-          
             // if ($imageFile) {
             //     dd('Image file exists: ' .$imageFile);
             // $imageFileName = $userFileUploader->upload($imageFile);
@@ -47,7 +48,6 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
-           
 
             return $this->redirectToRoute('app_login');
         }
@@ -56,4 +56,18 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form,
         ]);
     }
+
+    #[Route('/check-email', name: 'app_check_email')]
+    public function checkEmail(Request $request, UserRepository $userRepository) : JsonResponse
+    {
+        // Отримуємо email з запиту
+        $email = $request->query->get('email');
+
+        // Перевіряємо, чи є користувач із таким email
+        $exists = (bool) $userRepository->findOneBy(['email' => $email]);
+
+        // Повертаємо результат у форматі JSON
+        return $this->json(['exists' => $exists]);
+    }
+
 }
