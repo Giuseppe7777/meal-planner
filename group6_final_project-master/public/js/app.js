@@ -522,3 +522,42 @@ document.addEventListener('DOMContentLoaded', initPage);
 document.addEventListener('turbo:render', initPage);
 document.addEventListener('turbo:load', initPage);
 
+
+document.addEventListener('DOMContentLoaded', function () {
+    const emailField = document.getElementById('registration_form_email');
+    const feedback = document.getElementById('email-feedback');
+
+    emailField.addEventListener('input', function () {
+        const email = this.value;
+
+        if (!email) {
+            feedback.textContent = '';
+            feedback.className = 'form-text'; 
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/check-email?email=${encodeURIComponent(email)}`, true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const response = JSON.parse(xhr.responseText);
+                
+                if (response.exists) {
+                    feedback.textContent = 'Цей email уже використовується.';
+                    feedback.className = 'form-text text-danger fade-in visible'; 
+                } else {
+                    feedback.textContent = 'Цей email доступний для реєстрації.';
+                    feedback.className = 'form-text text-success fade-in visible'; 
+                }
+            } else {
+                feedback.textContent = 'Помилка перевірки. Спробуйте пізніше.';
+                feedback.className = 'form-text text-danger fade-in visible';
+            }
+        };
+        xhr.onerror = function () {
+            feedback.textContent = 'Помилка підключення до сервера.';
+            feedback.className = 'form-text text-danger fade-in visible';
+        };
+        xhr.send();       
+    })
+})

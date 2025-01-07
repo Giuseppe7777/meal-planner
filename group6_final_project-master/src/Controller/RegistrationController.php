@@ -60,13 +60,10 @@ class RegistrationController extends AbstractController
     #[Route('/check-email', name: 'app_check_email')]
     public function checkEmail(Request $request, UserRepository $userRepository) : JsonResponse
     {
-        // Отримуємо email з запиту
         $email = $request->query->get('email');
 
-        // Перевіряємо, чи є користувач із таким email
         $exists = (bool) $userRepository->findOneBy(['email' => $email]);
 
-        // Повертаємо результат у форматі JSON
         return $this->json(['exists' => $exists]);
     }
 

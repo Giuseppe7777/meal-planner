@@ -624,3 +624,15 @@ h1 {
 
 
 /* ================ style pending end ================== */
+
+
+/* ================ style input email AJAX start ================== */
+
+.form-text {
+  margin-bottom: 10px;
+  font-style: italic;
+  font-weight: bold;
+}
+
+
+/* ================ style input email AJAX end ================== */
