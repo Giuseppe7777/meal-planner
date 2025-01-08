@@ -523,41 +523,167 @@ document.addEventListener('turbo:render', initPage);
 document.addEventListener('turbo:load', initPage);
 
 
-document.addEventListener('DOMContentLoaded', function () {
+
+// function checkUser () {
+//     const emailField = document.getElementById('registration_form_email');
+//     const feedback = document.getElementById('email-feedback');
+//     let debounceTimer;
+//     let typingTimeout;
+
+//     function isValidEmail(email) {
+//         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//         return emailPattern.test(email);
+//     }
+
+//     function typeEffect(element, text, delay = 50) {
+//         clearTimeout(typingTimeout);
+//         element.textContent = ''; 
+//         let index = 0;
+
+//         function addLetter() {
+//             if (index < text.length) {
+//                 element.textContent += text[index]; 
+//                 index++;
+//                 typingTimeout = setTimeout(addLetter, delay); 
+//             }
+//         }
+
+//         addLetter(); 
+//     }
+
+//     if (!emailField.dataset.listenerAdded) {
+//         emailField.addEventListener('input', function () {
+//             const email = this.value;
+
+//             feedback.textContent = '';
+//             feedback.className = 'form-text';
+
+//             clearTimeout(debounceTimer);
+
+//             debounceTimer = setTimeout(() => {
+//                 if (!email || !isValidEmail(email)) {
+//                     feedback.className = 'form-text text-danger fade-in';
+//                     typeEffect(feedback, 'Please enter a valid email address.', 50); 
+//                     return;
+//                 }
+
+//                 const xhr = new XMLHttpRequest();
+//                 xhr.open('GET', `/check-email?email=${encodeURIComponent(email)}`, true);
+//                 xhr.onload = function () {
+//                     if (xhr.status === 200) {
+//                         const response = JSON.parse(xhr.responseText);
+                        
+//                         if (response.exists) {
+//                             feedback.className = 'form-text text-danger fade-in';
+//                             typeEffect(feedback, 'This email is already in use.', 50); 
+//                         } else {
+//                             feedback.className = 'form-text text-success fade-in'; 
+//                             typeEffect(feedback, 'This email is available for registration.', 50); 
+//                         }
+//                     } else {
+//                         feedback.className = 'form-text text-danger fade-in';
+//                         typeEffect(feedback, 'Validation error. Please try again later.', 50);
+//                     }
+//                 };
+//                 xhr.onerror = function () {
+//                     feedback.className = 'form-text text-danger fade-in';
+//                     typeEffect(feedback, 'Server connection error.', 50);
+//                 };
+//                 xhr.send();  
+//             }, 3000);
+//         });
+
+//         emailField.dataset.listenerAdded = true;
+//     }
+// }
+
+// document.addEventListener('DOMContentLoaded', checkUser);
+// document.addEventListener('turbo:render', checkUser);
+// document.addEventListener('turbo:load', checkUser);
+
+
+function checkUser() {
     const emailField = document.getElementById('registration_form_email');
     const feedback = document.getElementById('email-feedback');
+    let debounceTimer;
+    let typingTimeout;
+    let isTyping = false; // Змінна для відстеження друкування
 
-    emailField.addEventListener('input', function () {
-        const email = this.value;
+    function isValidEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    }
 
-        if (!email) {
-            feedback.textContent = '';
-            feedback.className = 'form-text'; 
-            return;
+    function typeEffect(element, text, delay = 50) {
+        clearTimeout(typingTimeout); // Скидаємо попередній друк
+        isTyping = true; // Встановлюємо статус друкування
+        element.textContent = ''; // Очищаємо текст перед початком друку
+        let index = 0;
+
+        function addLetter() {
+            if (!isTyping) return; // Якщо ввід почався, припиняємо друкування
+            if (index < text.length) {
+                element.textContent += text[index]; // Додаємо наступну букву
+                index++;
+                typingTimeout = setTimeout(addLetter, delay); // Викликаємо функцію для наступної букви
+            } else {
+                isTyping = false; // Завершуємо друкування
+            }
         }
 
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/check-email?email=${encodeURIComponent(email)}`, true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                const response = JSON.parse(xhr.responseText);
-                
-                if (response.exists) {
-                    feedback.textContent = 'Цей email уже використовується.';
-                    feedback.className = 'form-text text-danger fade-in visible'; 
-                } else {
-                    feedback.textContent = 'Цей email доступний для реєстрації.';
-                    feedback.className = 'form-text text-success fade-in visible'; 
+        addLetter(); // Запускаємо друкування
+    }
+
+    if (!emailField.dataset.listenerAdded) {
+        emailField.addEventListener('input', function () {
+            const email = this.value;
+
+            // Якщо користувач продовжує вводити, скидаємо всі попередні процеси
+            feedback.textContent = '';
+            feedback.className = 'form-text';
+            isTyping = false; // Зупиняємо друкування
+
+            clearTimeout(debounceTimer);
+
+            debounceTimer = setTimeout(() => {
+                if (!email || !isValidEmail(email)) {
+                    feedback.className = 'form-text text-danger';
+                    typeEffect(feedback, 'Please enter a valid email address.', 50);
+                    return;
                 }
-            } else {
-                feedback.textContent = 'Помилка перевірки. Спробуйте пізніше.';
-                feedback.className = 'form-text text-danger fade-in visible';
-            }
-        };
-        xhr.onerror = function () {
-            feedback.textContent = 'Помилка підключення до сервера.';
-            feedback.className = 'form-text text-danger fade-in visible';
-        };
-        xhr.send();       
-    })
-})
+
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/check-email?email=${encodeURIComponent(email)}`, true);
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+
+                        if (response.exists) {
+                            feedback.className = 'form-text text-danger';
+                            typeEffect(feedback, 'This email is already in use.', 50);
+                        } else {
+                            feedback.className = 'form-text text-success';
+                            typeEffect(feedback, 'This email is available for registration.', 50);
+                        }
+                    } else {
+                        feedback.className = 'form-text text-danger';
+                        typeEffect(feedback, 'Validation error. Please try again later.', 50);
+                    }
+                };
+                xhr.onerror = function () {
+                    feedback.className = 'form-text text-danger';
+                    typeEffect(feedback, 'Server connection error.', 50);
+                };
+                xhr.send();
+            }, 2000);
+        });
+
+        emailField.dataset.listenerAdded = true;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', checkUser);
+document.addEventListener('turbo:render', checkUser);
+document.addEventListener('turbo:load', checkUser);
+
+
