@@ -34,16 +34,6 @@ class RegistrationController extends AbstractController
             $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
             $user->setBlocked(False);
 
-            // $imageFile = $form->get('photo')->getData();
-            // if ($imageFile) {
-            //     dd('Image file exists: ' .$imageFile);
-            // $imageFileName = $userFileUploader->upload($imageFile);
-            // $user->setPhoto($imageFileName);
-            // }else{
-            //     dd('else');
-            //     $user->setPhoto("user.jpg");
-            // }
-
             $entityManager->persist($user);
             $entityManager->flush();
 

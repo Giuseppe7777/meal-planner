@@ -509,7 +509,7 @@ function uploadLargePhoto() {
 
         flashContainer.appendChild(flashMessage);
 
-        flashMessage.scrollIntoView({ behavior: "smooth", block: "center" }); // Auto-scroll to the message
+        flashMessage.scrollIntoView({ behavior: "smooth", block: "center" }); 
 
         setTimeout(() => {
             flashMessage.classList.add("fade-out");
@@ -523,132 +523,57 @@ document.addEventListener('turbo:render', initPage);
 document.addEventListener('turbo:load', initPage);
 
 
-
-// function checkUser () {
-//     const emailField = document.getElementById('registration_form_email');
-//     const feedback = document.getElementById('email-feedback');
-//     let debounceTimer;
-//     let typingTimeout;
-
-//     function isValidEmail(email) {
-//         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//         return emailPattern.test(email);
-//     }
-
-//     function typeEffect(element, text, delay = 50) {
-//         clearTimeout(typingTimeout);
-//         element.textContent = ''; 
-//         let index = 0;
-
-//         function addLetter() {
-//             if (index < text.length) {
-//                 element.textContent += text[index]; 
-//                 index++;
-//                 typingTimeout = setTimeout(addLetter, delay); 
-//             }
-//         }
-
-//         addLetter(); 
-//     }
-
-//     if (!emailField.dataset.listenerAdded) {
-//         emailField.addEventListener('input', function () {
-//             const email = this.value;
-
-//             feedback.textContent = '';
-//             feedback.className = 'form-text';
-
-//             clearTimeout(debounceTimer);
-
-//             debounceTimer = setTimeout(() => {
-//                 if (!email || !isValidEmail(email)) {
-//                     feedback.className = 'form-text text-danger fade-in';
-//                     typeEffect(feedback, 'Please enter a valid email address.', 50); 
-//                     return;
-//                 }
-
-//                 const xhr = new XMLHttpRequest();
-//                 xhr.open('GET', `/check-email?email=${encodeURIComponent(email)}`, true);
-//                 xhr.onload = function () {
-//                     if (xhr.status === 200) {
-//                         const response = JSON.parse(xhr.responseText);
-                        
-//                         if (response.exists) {
-//                             feedback.className = 'form-text text-danger fade-in';
-//                             typeEffect(feedback, 'This email is already in use.', 50); 
-//                         } else {
-//                             feedback.className = 'form-text text-success fade-in'; 
-//                             typeEffect(feedback, 'This email is available for registration.', 50); 
-//                         }
-//                     } else {
-//                         feedback.className = 'form-text text-danger fade-in';
-//                         typeEffect(feedback, 'Validation error. Please try again later.', 50);
-//                     }
-//                 };
-//                 xhr.onerror = function () {
-//                     feedback.className = 'form-text text-danger fade-in';
-//                     typeEffect(feedback, 'Server connection error.', 50);
-//                 };
-//                 xhr.send();  
-//             }, 3000);
-//         });
-
-//         emailField.dataset.listenerAdded = true;
-//     }
-// }
-
-// document.addEventListener('DOMContentLoaded', checkUser);
-// document.addEventListener('turbo:render', checkUser);
-// document.addEventListener('turbo:load', checkUser);
-
+// Check user during the registration
 
 function checkUser() {
+    let hasError = false;
     const emailField = document.getElementById('registration_form_email');
     const feedback = document.getElementById('email-feedback');
+    const form = document.getElementById('registration_form');
     let debounceTimer;
     let typingTimeout;
-    let isTyping = false; // Змінна для відстеження друкування
+    let isTyping = false; 
 
     function isValidEmail(email) {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailPattern.test(email);
     }
 
-    function typeEffect(element, text, delay = 50) {
-        clearTimeout(typingTimeout); // Скидаємо попередній друк
-        isTyping = true; // Встановлюємо статус друкування
-        element.textContent = ''; // Очищаємо текст перед початком друку
+    function typeEffect(element, text, delay = 30) {
+        clearTimeout(typingTimeout); 
+        isTyping = true; 
+        element.textContent = ''; 
         let index = 0;
 
         function addLetter() {
-            if (!isTyping) return; // Якщо ввід почався, припиняємо друкування
+            if (!isTyping) return; 
             if (index < text.length) {
-                element.textContent += text[index]; // Додаємо наступну букву
+                element.textContent += text[index]; 
                 index++;
-                typingTimeout = setTimeout(addLetter, delay); // Викликаємо функцію для наступної букви
+                typingTimeout = setTimeout(addLetter, delay); 
             } else {
-                isTyping = false; // Завершуємо друкування
+                isTyping = false; 
             }
         }
 
-        addLetter(); // Запускаємо друкування
+        addLetter(); 
     }
 
     if (!emailField.dataset.listenerAdded) {
         emailField.addEventListener('input', function () {
             const email = this.value;
 
-            // Якщо користувач продовжує вводити, скидаємо всі попередні процеси
             feedback.textContent = '';
             feedback.className = 'form-text';
-            isTyping = false; // Зупиняємо друкування
+            isTyping = false; 
 
             clearTimeout(debounceTimer);
 
             debounceTimer = setTimeout(() => {
                 if (!email || !isValidEmail(email)) {
                     feedback.className = 'form-text text-danger';
-                    typeEffect(feedback, 'Please enter a valid email address.', 50);
+                    typeEffect(feedback, 'Please enter a valid email address.', 30);
+                    hasError = true;
                     return;
                 }
 
@@ -660,19 +585,23 @@ function checkUser() {
 
                         if (response.exists) {
                             feedback.className = 'form-text text-danger';
-                            typeEffect(feedback, 'This email is already in use.', 50);
+                            typeEffect(feedback, 'This email is already in use.', 30);
+                            hasError = true;
                         } else {
                             feedback.className = 'form-text text-success';
-                            typeEffect(feedback, 'This email is available for registration.', 50);
+                            typeEffect(feedback, 'This email is available for registration.', 30);
+                            hasError = false;
                         }
                     } else {
                         feedback.className = 'form-text text-danger';
-                        typeEffect(feedback, 'Validation error. Please try again later.', 50);
+                        typeEffect(feedback, 'Validation error. Please try again later.', 30);
+                        hasError = true;
                     }
                 };
                 xhr.onerror = function () {
                     feedback.className = 'form-text text-danger';
-                    typeEffect(feedback, 'Server connection error.', 50);
+                    typeEffect(feedback, 'Server connection error.', 30);
+                    hasError = true;
                 };
                 xhr.send();
             }, 2000);
@@ -680,10 +609,19 @@ function checkUser() {
 
         emailField.dataset.listenerAdded = true;
     }
+
+    if (!form.dataset.listenerAdded) {
+        form.addEventListener('submit', function(event) {
+            if (hasError) {
+                event.preventDefault();
+                feedback.className = 'form-text text-danger';
+                typeEffect(feedback, 'User with this email address is already registered.', 30);
+            }
+        });
+        console.log('Submit listener added'); 
+    }
 }
 
 document.addEventListener('DOMContentLoaded', checkUser);
 document.addEventListener('turbo:render', checkUser);
 document.addEventListener('turbo:load', checkUser);
-
-

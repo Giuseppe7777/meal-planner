@@ -25,11 +25,12 @@
         </div>
         {{ form_end(registrationForm) }} #}
 
-        {{ form_start(registrationForm) }}
+        {{ form_start(registrationForm, {'attr': {'id': 'registration_form'}}) }}
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6">
 
-                    <div class="form-gr">
+                    <div class="form-group">
+                        {# {{ form_errors(registrationForm.email) }} #}
                         {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
                         <div id="email-feedback" class="form-text"></div> 
                         {{ form_widget(registrationForm.email) }}
