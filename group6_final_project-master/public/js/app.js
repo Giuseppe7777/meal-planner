@@ -282,7 +282,6 @@ function initPage() {
     initFileInput();
     activateRecipeTypeButtons();
     activateIngredientManagement();
-    uploadLargePhoto();
 }
 
 
@@ -448,6 +447,11 @@ function activateIngredientManagement() {
     }
 }
 
+document.addEventListener('DOMContentLoaded', initPage);
+document.addEventListener('turbo:render', initPage);
+document.addEventListener('turbo:load', initPage);
+
+
 // Validate file size and display flash messages with auto-scroll
 function uploadLargePhoto() {
     const fileInput = document.getElementById("recipe_photo");
@@ -458,7 +462,7 @@ function uploadLargePhoto() {
         return;
     }
 
-    let isFileValid = false;
+    let isFileValid = true; // Початково вважаємо, що файл валідний або відсутній
 
     function formatFileSize(size) {
         if (size >= 1024 * 1024) {
@@ -478,13 +482,16 @@ function uploadLargePhoto() {
                 fileHint.style.fontWeight = "bold";
                 isFileValid = false;
                 fileInput.value = "";
-                addFlashMessage(`The file is too large (${fileSize}).`, "danger");
+                addFlashMessage(`The file is too large (${fileSize}).`, "danger", fileHint);
             } else {
                 fileHint.textContent = `File is valid and ready to upload! (${fileSize})`;
                 fileHint.style.color = "green";
                 fileHint.style.fontWeight = "bold";
                 isFileValid = true;
             }
+        } else {
+            // Якщо файл не вибрано, вважаємо це валідним
+            isFileValid = true;
         }
     });
 
@@ -493,12 +500,12 @@ function uploadLargePhoto() {
         form.addEventListener("submit", function (event) {
             if (!isFileValid) {
                 event.preventDefault();
-                addFlashMessage("Please upload a valid file smaller than 2 MB.", "danger");
+                addFlashMessage("Please upload a valid file smaller than 2 MB.", "danger", fileHint);
             }
         });
     }
 
-    function addFlashMessage(message, type) {
+    function addFlashMessage(message, type, returnToElement) {
         const flashMessage = document.createElement("div");
         flashMessage.className = `alert alert-${type} alert-dismissible fade show`;
         flashMessage.role = "alert";
@@ -513,23 +520,34 @@ function uploadLargePhoto() {
 
         setTimeout(() => {
             flashMessage.classList.add("fade-out");
-            setTimeout(() => flashMessage.remove(), 500);
-        }, 5000);
+            setTimeout(() => {
+                flashMessage.remove();
+                // Повертаємося до повідомлення про помилку
+                returnToElement.scrollIntoView({ behavior: "smooth", block: "center" });
+            }, 500);
+        }, 3000);
     }
 }
 
-document.addEventListener('DOMContentLoaded', initPage);
-document.addEventListener('turbo:render', initPage);
-document.addEventListener('turbo:load', initPage);
+
+
+
+document.addEventListener('DOMContentLoaded', uploadLargePhoto);
+document.addEventListener('turbo:render', uploadLargePhoto);
+// document.addEventListener('turbo:load', uploadLargePhoto);
 
 
 // Check user during the registration
-
 function checkUser() {
-    let hasError = false;
     const emailField = document.getElementById('registration_form_email');
     const feedback = document.getElementById('email-feedback');
     const form = document.getElementById('registration_form');
+
+    if (!emailField || !feedback || !form) {
+        return; 
+    }
+
+    let hasError = false;
     let debounceTimer;
     let typingTimeout;
     let isTyping = false; 
@@ -618,7 +636,7 @@ function checkUser() {
                 typeEffect(feedback, 'User with this email address is already registered.', 30);
             }
         });
-        console.log('Submit listener added'); 
+        // console.log('Submit listener added'); 
     }
 }
 

@@ -23,7 +23,7 @@ class RecipeType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => [
                     'class' => 'form-control-name mb-3', 
-                    'pattern' => '[a-zA-Z0-9\s.,\-\(\)]*',
+                    'pattern' => '[a-zA-Zа-яА-ЯёЁЇїІіЄєҐґ0-9\s.,\-\(\)]*',
                     'placeholder' => 'E.g. Spaghetti with Tomato Sauce'
                 ],
                 'label' => false,
