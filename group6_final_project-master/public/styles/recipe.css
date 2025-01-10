@@ -214,6 +214,29 @@ h1 {
 
 /* =========== upload pfoto end =================== */
 
+/* =========== registration image upload start =================== */
+
+.registration-image-file-wrapper {
+  display: flex;
+  gap: 10px;
+}
+
+.registration-choose-file-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 10px;
+}
+
+.registration-image-file-name {
+  font-size: 14px;
+  color: #6c757d; /* muted color */
+  text-align: center;
+}
+
+
+
+/* =========== registration image upload end =================== */
 
 
 

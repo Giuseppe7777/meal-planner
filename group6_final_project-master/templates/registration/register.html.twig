@@ -36,6 +36,37 @@
                         {{ form_widget(registrationForm.email) }}
                     </div>
 
+                    <div class="form-group">
+                        {{ form_label(registrationForm.phoneNumber) }}
+                        {{ form_widget(registrationForm.phoneNumber) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(registrationForm.first_name) }}
+                        {{ form_widget(registrationForm.first_name) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(registrationForm.last_name) }}
+                        {{ form_widget(registrationForm.last_name) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form_label(registrationForm.imageFile) }}
+                        <div class="registration-image-file-wrapper">                            
+                            {{ form_widget(registrationForm.imageFile, {'attr': {'class': 'registration-image-file d-none', 'id': 'registration_form_imageFile'}}) }}
+                            <div class="image-placeholder">
+                                <img src="{{ asset('pictures/image-upload.png') }}" alt="Placeholder image">
+                            </div>
+                            <div class="registration-choose-file-wrapper">
+                                <label for="registration_form_imageFile_file" class="file-label d-block text-center">
+                                    Choose File
+                                </label>
+                                <span id="registration-image-file-name" class="registration-image-file-name d-block">No File Chosen</span>
+                            </div>
+                        </div>
+                    </div>
+
                     {{ form_rest(registrationForm) }}
 
                     <div class="d-grid">
