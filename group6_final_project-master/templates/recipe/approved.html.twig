@@ -16,11 +16,13 @@
             <div class="grid grid--3-cols margin-bottom-md">
                 {% for recipe in approvedRecipes %}
                     <div class="meal">
-                        {% if recipe.photo is empty %}
-                            <img class="meal-img" src="https://placehold.co/400x300/9bdc28/white?text=No+Image" alt="{{ recipe.name }}">
-                        {% else %}
-                            <img class="meal-img" src="{{ asset('pictures/' ~ recipe.photo ) }}" alt="{{ recipe.name }}" onerror="this.src='https://placehold.co/400x300/9bdc28/white?text=Delicious+Recipe'">
-                        {% endif %}
+                        <div class="meal-image">
+                            {% if recipe.photo is empty %}
+                                <img class="meal-img" src="https://placehold.co/400x300/9bdc28/white?text=No+Image" alt="{{ recipe.name }}">
+                            {% else %}
+                                <img class="meal-img" src="{{ asset('pictures/' ~ recipe.photo ) }}" alt="{{ recipe.name }}" onerror="this.src='https://placehold.co/400x300/9bdc28/white?text=Delicious+Recipe'">
+                            {% endif %}
+                        </div>
                         
                         <div class="meal-content">
                             <div class="meal-tags">
@@ -41,7 +43,7 @@
                                     <span><strong>{{ recipe.preparationTime }}</strong> min prep time</span>
                                 </li>
                             </ul>
-                            <a class="btn btn-primary" href="{{ path('app_recipe_show', {'id': recipe.id}) }}">View Recipe</a>
+                            <a class="meal-btn btn btn-primary" href="{{ path('app_recipe_show', {'id': recipe.id}) }}">View Recipe</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -57,7 +59,9 @@
             <div class="grid grid--3-cols margin-bottom-md">
                 {% for recipe in userRecipes %}
                     <div class="meal">
-                        <img class="meal-img" src="{{ asset('pictures/' ~ recipe.photo ) }}" alt="{{ recipe.name }}">
+                        <div class="meal-image">
+                            <img class="meal-img" src="{{ asset('pictures/' ~ recipe.photo ) }}" alt="{{ recipe.name }}">
+                        </div>
                         
                         <div class="meal-content">
                             <div class="meal-tags">
@@ -78,9 +82,7 @@
                                     <span><strong>{{ recipe.preparationTime }}</strong> min prep time</span>
                                 </li>
                             </ul>
-                            <div class="mt-4">
-                                <a class="btn btn-primary" href="{{ path('app_recipe_show', {'id': recipe.id}) }}">View Recipe</a>
-                            </div>
+                            <a class="meal-btn btn btn-primary" href="{{ path('app_recipe_show', {'id': recipe.id}) }}">View Recipe</a>
                         </div>
                     </div>
                 {% endfor %}
@@ -90,7 +92,7 @@
 </div>
 
 <div class="create-recipe">
-    <a href="{{ path('app_recipe_new') }}" class="create-link">Create New Recipe</a>
+    <a href="{{ path('app_recipe_new') }}" class="btn btn-primary">Create New Recipe</a>
 </div>
 
 <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>

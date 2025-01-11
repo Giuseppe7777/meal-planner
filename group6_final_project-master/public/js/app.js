@@ -357,6 +357,7 @@ function checkUser() {
         form.addEventListener('submit', function(event) {
             if (hasError) {
                 event.preventDefault();
+                emailField.scrollIntoView({ behavior: 'smooth', block: 'center'});
                 feedback.className = 'form-text text-danger';
                 typeEffect(feedback, 'User with this email address is already registered.', 30);
             }
@@ -388,4 +389,8 @@ function addUserRegistration () {
 
 document.addEventListener('DOMContentLoaded', addUserRegistration);
 document.addEventListener('turbo:render', addUserRegistration);
+
+
+
+
 
