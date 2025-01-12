@@ -9,17 +9,15 @@
 
 {% block body %}
     <div class="container">
-        <div class="container-recipe">
-            <h1 class="form-title">Add a Recipe</h1>
-            <p class="subtitle">Create and share your own recipes with the community</p>
-        
-            {{ include('recipe/_form.html.twig') }}
+        <h1 class="form-title">Add a Recipe</h1>
+        <p class="subtitle">Create and share your own recipes with the community</p>
+    
+        {{ include('recipe/_form.html.twig') }} 
 
-            {% if is_granted("ROLE_ADMIN") %}
-                <a href="{{ path('admin_app_recipe_index') }}" class="btn btn-secondary mt-3">Back to List</a>
-            {% else %}
-                <a href="{{ path('app_approved_recipes') }}" class="btn btn-secondary mt-3">Back to List</a>
-            {% endif %}
-        </div>
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('admin_app_recipe_index') }}" class="btn btn-secondary mt-3">Back to List</a>
+        {% else %}
+            <a href="{{ path('app_approved_recipes') }}" class="btn btn-secondary mt-3">Back to List</a>
+        {% endif %}
     </div>
 {% endblock %}

@@ -1,9 +1,9 @@
 /* ================ new recipe start ================== */
 
-.container-recipe {
+/* .container-recipe {
   width: 1200px;
   margin-bottom: 30px;
-}
+} */
 
 body {
   font-family: Poppins, sans-serif; 
@@ -30,7 +30,7 @@ h1 {
 }
 
 .form-control-name {
-  width: 522px;
+  width: 74%;
   border: 1px solid #C3C3C3; 
   border-radius: 8px; 
   padding: 10px 15px; 
@@ -41,7 +41,7 @@ h1 {
 }
 
 .form-control-ingredients { 
-  width: 433px;
+  width: 100%;
   border: 1px solid #C3C3C3; 
   border-radius: 8px; 
   padding: 7px 15px; 
@@ -118,8 +118,16 @@ h1 {
   overflow-y: auto; 
 }
 
+@media (max-width: 576px) {
+  .form-control-description--show {
+    width: 100%;
+    padding: 5px 10px; 
+    font-size: 15px; 
+  }
+}
+
 .form-control-calories {
-  width: 522px;
+  width: 74%;
   border: 1px solid #C3C3C3; 
   border-radius: 8px; 
   padding: 10px 15px; 
@@ -130,7 +138,7 @@ h1 {
 }
 
 .form-control-link {
-  width: 522px;
+  width: 74%;
   border: 1px solid #C3C3C3; 
   border-radius: 8px; 
   padding: 10px 15px; 
@@ -140,9 +148,12 @@ h1 {
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.type-button {
-  padding: 5px 23px;
-  background-color: #D9D9D9;
+@media (max-width: 576px) {
+  .form-control-name,
+  .form-control-calories,
+  .form-control-link {
+    width: 100%;
+  }
 }
 
 /* =========== upload pfoto start =================== */
@@ -181,6 +192,12 @@ h1 {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .custom-file-upload {
+    justify-content: center;
+  }
 }
 
 .custom-file-input {
@@ -322,9 +339,16 @@ h1 {
 }
 
 .section-title-image {
-  font-size: 22px;
+  font-size: 18px;
   color: #000;
   font-weight: 800;
+}
+
+@media (max-width: 768px) {
+  .section-title-image {
+    text-align: center;
+    margin-bottom: 15px;
+  }
 }
 
 /* ================== types button styling start ===================== */
@@ -393,7 +417,37 @@ h1 {
   background-color: #CBFC02;
   color: #303030;
   border-color: #CBFC02;
-} */
+} 
+
+.type-button {
+  padding: 5px 23px;
+  background-color: #D9D9D9;
+}
+
+@media (max-width: 768px) {
+  .recipe-types {
+    flex-direction: column;
+    row-gap: 5px;
+  }
+
+  .type-button {
+    align-self: flex-start;
+    width: 130px;
+  }
+}
+
+@media (max-width: 576px) {
+
+  .type-button {
+    align-self: center;
+  }
+
+  .recipe-types .btn {
+    padding: 3px 15px;
+    font-size: 11px;
+    font-weight: bold;
+}
+}
 
 /* ================== types button styling end ===================== */
 
@@ -451,6 +505,7 @@ h1 {
   transform: translateX(0);
   transition: all 0.5s ease; 
   padding-left: 30px;
+  position: relative;
 }
 
 .list-group-item::before {
@@ -460,30 +515,25 @@ h1 {
   background-color: #CBFC02;
   border-radius: 4px;
   position: absolute;
-  top: 4px;
   left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
-#ingredients-list .list-group-item__ingredient {
+.list-group-item__ingredient {
   font-style: italic;
   font-size: 15px;
   position: relative;
   padding-left: 25px;
+  max-width: calc(100% - 50px); 
+  white-space: normal; 
+  word-wrap: break-word; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
-/* #ingredients-list .list-group-item__ingredient::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  background-color: #303030;
-  border-radius: 50%;
-  position: absolute;
-  top: 9px;
-  left: 0;
-} */
-
 #ingredients-list .btn-danger {
-  border: 2px solid  #ff6b6b; /* Жовто-зелена обводка */
+  border: 2px solid  #ff6b6b; 
   background-color: transparent;
   color:  #ff6b6b;;
   font-size: 1rem;
@@ -491,14 +541,14 @@ h1 {
   padding: 10px 6px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 5px  #ff6b6b;/* Світіння */
+  box-shadow: 0 0 5px  #ff6b6b;
   transition: all 0.3s ease;
 }
 
 #ingredients-list .btn-danger:hover {
   background-color:  #ff6b6b;
   color: #fff;
-  box-shadow: 0 0 10px  #ff6b6b;  /* Посилення світіння */
+  box-shadow: 0 0 10px  #ff6b6b;  
 }
 
 .remove-animation {
@@ -528,6 +578,18 @@ h1 {
   display: flex;
   margin-bottom: 20px;
 }
+
+@media (max-width: 576px) {
+  .ingredients {
+    text-align: center;
+  }
+
+  .list-group-item {
+    font-size: 15px;
+  }
+}
+
+
 /* ================== ingredient end ===================== */
 
 /* ================ style form end ================== */
@@ -568,12 +630,12 @@ h1 {
 
 .list-items {
   display: flex;
-  gap: 72px;
+  column-gap: 10px;
 }
 
 .list-item {
-  display: block;
-  width: 240px;
+  /* display: block; */
+  flex: 1;
   height: 130px;
   border: 1px solid #c3c3c3;
   border-radius: 18px;
@@ -584,6 +646,7 @@ h1 {
 
 .list-item-style {
   font-size: 25px;
+  display: block;
   font-weight: 800;
   color: #303030;
   line-height: 1;
@@ -591,6 +654,34 @@ h1 {
 
 .recipe-types {
   margin-bottom: 35px;
+}
+
+@media (max-width: 768px) {
+
+  .recipe-details__items {
+    margin-bottom: 10px;
+  }
+
+  .list-items {
+    flex-direction: column;
+    row-gap: 5px;
+  }
+
+  .list-item {
+    padding: 7px 15px;
+    font-size: 14px;
+  }
+  
+  .list-item-style {
+    font-size: 18px;
+    font-weight: 800;
+  }
+}
+
+@media (max-width: 576px) { 
+  .recipe-details__title {
+    font-size: 20px;
+  }
 }
 
 /* ================ style details view recipe end ================== */
@@ -659,7 +750,3 @@ h1 {
 
 
 /* ================ style input email AJAX end ================== */
-
-.bmx {
-  color: red;
-}

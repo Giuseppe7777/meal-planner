@@ -902,10 +902,6 @@ h1 {
     .form-actions {
         flex-direction: column;
     }
-    
-    .form-actions .btn {
-        width: 100%;
-    }
 }
 
 /* Meals Section Styling */
@@ -1260,10 +1256,15 @@ h1 {
     }
     
     .form-actions .btn {
-        width: 100%;
+        width: 25%;
     }
 }
 
+@media (max-width: 541px) {
+    .form-actions .btn {
+        width: 28%;
+    }
+}
 /* User Profile Styles */
 .user-profile-container {
     max-width: 800px;

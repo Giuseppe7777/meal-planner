@@ -28,19 +28,19 @@
                 </div>
             </div>
 
-            <div class="recipe-types d-flex gap-2">
+            <div class="recipe-types d-flex">
                 {% for label, value in availableTypes %}
                     <a href="#" 
                         class="btn type-button tag--{{ value|lower }} {% if recipe.type == value %}active{% endif %}">
-                        {{ label }}
+                        {{ label|replace({'-': '&#8209;'})|raw }}
                     </a>
                 {% endfor %}
             </div>
-            
-            <div class="col-md-6 mb-3">
+
+            <div class="ingredients col-sm-6 col-md-6 mb-3">
                 <h3 class="recipe-details__title">Ingredients</h3>
                 {% set ingredients = recipe.ingredients | split(',') %}
-                <ul class="ingredients-list">
+                <ul class="ingredients-list d-inline-block text-start">
                     {% for ingredient in ingredients %}                        
                     <li class="list-group-item">{{ ingredient | trim }}</li>
                     {% endfor %}
@@ -52,7 +52,7 @@
                     <h3 class="recipe-details__title">Description</h3>
                     <p class="form-control-description--show list-item-ingredient">{{ recipe.description|nl2br }}</p>
                 </div>
-            </div>
+            </div> 
         </div>
 
         <div class="mt-5 d-flex justify-content-center gap-2">
