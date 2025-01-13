@@ -36,15 +36,18 @@
                     </a>
                 {% endfor %}
             </div>
-
-            <div class="ingredients col-sm-6 col-md-6 mb-3">
+            
+            <div class="recipe-ingredients">
                 <h3 class="recipe-details__title">Ingredients</h3>
                 {% set ingredients = recipe.ingredients | split(',') %}
-                <ul class="ingredients-list d-inline-block text-start">
+                <ul id="ingredients-list">
                     {% for ingredient in ingredients %}                        
-                    <li class="list-group-item">{{ ingredient | trim }}</li>
+                    <li class="list-group-item">
+                        <span class="list-group-item__ingredient">{{ ingredient | trim }}</span>
+                    </li>
                     {% endfor %}
                 </ul>
+                <div id="ingredients-error" class="ingredients-error-flash mt-2" style="display: none;"></div>
             </div>
 
             <div class="recipe-description mt-5">

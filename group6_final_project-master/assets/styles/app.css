@@ -1742,4 +1742,8 @@ h1 {
         padding: 0.3rem 0.8rem;
         font-weight: 600;
     }
+
+    .cta-buttons .btn {
+        padding: 0.3rem 0.8rem;
+    }
 }
