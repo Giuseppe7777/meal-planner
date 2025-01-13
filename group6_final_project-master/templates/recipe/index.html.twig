@@ -4,8 +4,8 @@
 
 {% block body %}
 
+<h1 class="text-center">Recipes</h1>
 <div class="recipe-container">
-    <h1 class="text-center">Recipes</h1>
     {% for recipe in recipes %}
     {% if recipe.status == '1' %}
     <div class="container">

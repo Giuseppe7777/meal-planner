@@ -1260,9 +1260,17 @@ h1 {
     }
 }
 
+@media (max-width: 576px) {
+    .form-actions .btn {
+        width: 20%;
+
+    }
+}
+
 @media (max-width: 541px) {
     .form-actions .btn {
-        width: 28%;
+        width: 41%;
+
     }
 }
 /* User Profile Styles */

@@ -1,55 +1,4 @@
-{# 
 
-{% extends 'base.html.twig' %}
-
-{% block title %}Details{% endblock %}
-
-{% block body %}
-<div class="container-detailsplanner">
-    <h1><span class="container-detailsplanner__mainlabel">Plan for</span> <hr> {{ meal_planner.chosenDate ? meal_planner.chosenDate|date('F j, Y') : 'No date specified' }}</h1>
-    
-
-    <div class="container-detailsplanner__wrapper">
-        <div class="meal-detail">
-            <div class="label">{{ meal_planner.getMealChosen|first.name ?? 'No Name Available' }}</div>
-            <div class="value">
-                {% set firstRecipeWithPhoto = meal_planner.getMealChosen|filter(r => r.photo is not empty)|first %}
-                {% if firstRecipeWithPhoto is defined %}
-                    <img src="{{ asset('pictures/' ~ firstRecipeWithPhoto.photo) }}" alt="{{ firstRecipeWithPhoto.name }}" style="width: 400px; height: auto;">
-                {% else %}
-                    <img src="https://placehold.co/400x267" alt="No Image">
-                {% endif %}
-            </div>
-        </div>
-        <div class="meal-detail">
-            <div class="label">Type of recipe</div>
-            <div class="value">{{ firstRecipeWithPhoto.type ?? 'N/A' }}</div>
-        </div>
-        <div class="meal-detail">
-            <div class="label">Caloric content</div>
-            <div class="value">{{ firstRecipeWithPhoto.calories ?? 'N/A' }} kcal</div>
-        </div>
-        <div class="meal-detail">
-            <div class="label">Ingredients</div>
-            <div class="value">{{ firstRecipeWithPhoto.ingredients ?? 'No Ingredients Available' }}</div>
-        </div>
-        <div class="meal-detail">
-            <div class="label">Recipe description</div>
-            <div class="value">{{ firstRecipeWithPhoto.description ?? 'No Description Available' }}</div>
-        </div>
-        <div class="meal-detail">
-            <div class="label">Recipe author</div>
-            <div class="value">{{ firstRecipeWithPhoto.author.firstName ?? 'Unknown' }} {{ firstRecipeWithPhoto.author.lastName ?? '' }}</div>
-        </div>
-    </div>
-    
-    <div class="actions">
-        <a href="{{ path('app_meal_planner_index') }}" class="btn btn-secondary">Back to List</a>
-        <a href="{{ path('app_meal_planner_edit', {'id': meal_planner.id}) }}" class="btn btn-warning">Edit</a>
-        {{ include('meal_planner/_delete_form.html.twig') }}
-    </div>
-</div>
-{% endblock %}  #}
 
 {% extends 'base.html.twig' %}
 
@@ -66,7 +15,7 @@
                 <div class="label">{{ recipe.name ?? 'No Name Available' }}</div>
                 <div class="value">
                     {% if recipe.photo %}
-                        <img src="{{ asset('pictures/' ~ recipe.photo) }}" alt="{{ recipe.name }}" style="width: 400px; height: auto;">
+                        <img src="{{ asset('pictures/' ~ recipe.photo) }}" alt="{{ recipe.name }}" style="height: auto;">
                     {% else %}
                         <img src="https://placehold.co/400x267" alt="No Image">
                     {% endif %}

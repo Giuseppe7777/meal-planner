@@ -58,24 +58,30 @@
             </div> 
         </div>
 
-        <div class="mt-5 d-flex justify-content-center gap-2">
-            {% if is_granted("ROLE_ADMIN") and recipe.status == '1' %}
+        {% if is_granted("ROLE_ADMIN") and recipe.status == '1' %}
+            <div class="mt-5 d-flex justify-content-center gap-2">
                 <a href="{{ path('admin_app_recipe_index') }}" class="btn btn-secondary">Back to List</a>
                 <a href="{{ path('admin_app_recipe_edit', {'id': recipe.id}) }}" class="btn btn-warning">Edit</a>
                 {{ include('recipe/_delete_form.html.twig') }}
+            </div>
             {% elseif recipe.status == '0' %}
+            <div class="mt-5 d-flex justify-content-center gap-2">
                 <a href="{{ path('admin_app_pending') }}" class="btn btn-secondary">Back to List</a>
                 <a href="{{ path('admin_app_recipe_edit', {'id': recipe.id}) }}" class="btn btn-warning">Edit</a>
-                <a href="{{ path('admin_app_approve', {'id': recipe.id}) }}" class="btn btn-success">Approve</a>
                 {{ include('recipe/_delete_form.html.twig') }}
+            </div>
+            <div class="mt-2 text-center"><a href="{{ path('admin_app_approve', {'id': recipe.id}) }}" class="btn btn-success">Approve</a></div>
             {% elseif userId == recipe.author.id %}
+            <div class="mt-5 d-flex justify-content-center gap-2">
                 <a href="{{ path('app_approved_recipes') }}" class="btn btn-secondary">Back to List</a>
                 <a href="{{ path('app_recipe_edit', {'id': recipe.id}) }}" class="btn btn-warning">Edit</a>
                 {{ include('recipe/_delete_form.html.twig') }}
+            </div>
             {% else %}
+            <div class="mt-5 d-flex justify-content-center gap-2">
                 <a href="{{ path('app_approved_recipes') }}" class="btn btn-secondary">Back to List</a>
+            </div>
             {% endif %}
-        </div>
 
     </div>
 {% endblock %}

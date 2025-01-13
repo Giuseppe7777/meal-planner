@@ -157,6 +157,12 @@ img {
   gap: 10px; 
 }
 
+@media (max-width: 768px) {
+  .meal-detail {
+    flex-direction: column;
+  }
+}
+
 
 
 

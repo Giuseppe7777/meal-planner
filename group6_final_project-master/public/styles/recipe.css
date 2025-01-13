@@ -736,6 +736,41 @@ h1 {
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+@media (max-width: 576px) {
+
+  .recipe-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .recipe-header {
+    text-align: left;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .recipe-data {
+    flex-wrap: wrap;
+    font-size: 14px;
+    margin-bottom: 15px; 
+  }
+
+  .recipe-photo {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .recipe-data .btn {
+    flex: 1;
+    font-size: 12px;
+    padding: 8px;
+  }
+}
+
+
+
 
 /* ================ style pending end ================== */
 
