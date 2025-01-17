@@ -277,6 +277,11 @@ function checkUser() {
     let typingTimeout;
     let isTyping = false; 
 
+    function lockForm(form, lock = true) {
+        const elements = form.querySelectorAll('input, textarea, button, select');
+        elements.forEach(element => element.disabled = lock);
+    }
+
     function isValidEmail(email) {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailPattern.test(email);
@@ -316,6 +321,9 @@ function checkUser() {
                 if (!email || !isValidEmail(email)) {
                     feedback.className = 'form-text text-danger';
                     typeEffect(feedback, 'Please enter a valid email address.', 30);
+                    lockForm(form, true);
+                    feedback.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    setTimeout(() => lockForm(form, false), 500);
                     hasError = true;
                     return;
                 }
@@ -323,6 +331,7 @@ function checkUser() {
                 const xhr = new XMLHttpRequest();
                 xhr.open('GET', `/check-email?email=${encodeURIComponent(email)}`, true);
                 xhr.onload = function () {
+                    lockForm(form, true);
                     if (xhr.status === 200) {
                         const response = JSON.parse(xhr.responseText);
 
@@ -343,11 +352,14 @@ function checkUser() {
                         feedback.scrollIntoView({behavior: 'smooth', block: 'center'});
                         hasError = true;
                     }
+                    setTimeout(() => lockForm(form, false), 500);
                 };
                 xhr.onerror = function () {
+                    lockForm(form, true); 
                     feedback.className = 'form-text text-danger';
                     typeEffect(feedback, 'Server connection error.', 30);
-                    feedback.scrollIntoView({behavior: 'smooth', block: 'center'});
+                    feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => lockForm(form, false), 500); 
                     hasError = true;
                 };
                 xhr.send();
