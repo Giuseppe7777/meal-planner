@@ -329,21 +329,25 @@ function checkUser() {
                         if (response.exists) {
                             feedback.className = 'form-text text-danger';
                             typeEffect(feedback, 'This email is already in use.', 30);
+                            feedback.scrollIntoView({behavior: 'smooth', block: 'center'});
                             hasError = true;
                         } else {
                             feedback.className = 'form-text text-success';
                             typeEffect(feedback, 'This email is available for registration.', 30);
+                            feedback.scrollIntoView({behavior: 'smooth', block: 'center'})
                             hasError = false;
                         }
                     } else {
                         feedback.className = 'form-text text-danger';
                         typeEffect(feedback, 'Validation error. Please try again later.', 30);
+                        feedback.scrollIntoView({behavior: 'smooth', block: 'center'});
                         hasError = true;
                     }
                 };
                 xhr.onerror = function () {
                     feedback.className = 'form-text text-danger';
                     typeEffect(feedback, 'Server connection error.', 30);
+                    feedback.scrollIntoView({behavior: 'smooth', block: 'center'});
                     hasError = true;
                 };
                 xhr.send();
