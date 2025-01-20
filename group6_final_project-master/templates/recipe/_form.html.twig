@@ -33,6 +33,7 @@
         <div class="ingredients-container__inner"> 
             <p class="ingredients-container__subtitle">Ingredient</p>
             {{ form_row(form.ingredients, {'attr': {'class': 'form-control-ingredients mb-2', 'placeholder': 'Enter an ingredient'}}) }}
+            <input type="text" id="recipe_ingredients-visible" name="recipe_ingredients" class="form-control-ingredients" placeholder="Enter an ingredient">
         </div> 
     </div>
     <ul id="ingredients-list"></ul>

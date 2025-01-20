@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -23,13 +24,13 @@ class RecipeType extends AbstractType
             ->add('name', TextType::class, array(
                 'attr' => [
                     'class' => 'form-control-name mb-1', 
-                    'pattern' => '[a-zA-Zа-яА-ЯёЁЇїІіЄєҐґ0-9\s.,\-\(\)]*',
+                    'pattern' => '[a-zA-Zа-яА-ЯЁёЇїЄє0-9\s.,\-\(\)!?\*\%\$\[\]\{\}\^\+&\$#@~=_\/\\\\`№<>"\']*',
                     'placeholder' => 'E.g. Spaghetti with Tomato Sauce'
                 ],
                 'label' => false,
                 'label_attr' => ['class' => 'form-label'], 
             ))
-            ->add('ingredients', TextType::class, array(
+            ->add('ingredients', HiddenType::class, array(
                 'required' => false,
                 'label' => false,     
                 'label_attr' => ['class' => 'form-label'],

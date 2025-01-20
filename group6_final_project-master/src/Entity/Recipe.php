@@ -105,14 +105,14 @@ class Recipe
         return $this;
     }
 
-    public function getIngredients(): ?string
+    public function getIngredients(): array
     {
-        return $this->ingredients;
+        return json_decode($this->ingredients, true) ?? [];
     }
 
-    public function setIngredients(string $ingredients): static
+    public function setIngredients(array|string $ingredients): self
     {
-        $this->ingredients = $ingredients;
+        $this->ingredients = is_array($ingredients) ? json_encode($ingredients) : $ingredients;
 
         return $this;
     }
@@ -249,3 +249,5 @@ class Recipe
         return $this;
     }
 }
+
+

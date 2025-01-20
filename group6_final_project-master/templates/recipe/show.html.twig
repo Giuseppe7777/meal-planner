@@ -39,11 +39,11 @@
             
             <div class="recipe-ingredients">
                 <h3 class="recipe-details__title">Ingredients</h3>
-                {% set ingredients = recipe.ingredients | split(',') %}
+                {% set ingredients = recipe.ingredients %}
                 <ul id="ingredients-list">
                     {% for ingredient in ingredients %}                        
                     <li class="list-group-item">
-                        <span class="list-group-item__ingredient">{{ ingredient | trim }}</span>
+                        <span class="list-group-item__ingredient">{{ ingredient }}</span>
                     </li>
                     {% endfor %}
                 </ul>

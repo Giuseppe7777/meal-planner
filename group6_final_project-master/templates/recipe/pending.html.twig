@@ -4,131 +4,6 @@
 
 {% block body %}
 
-    {# <div class="container">
-        <h1>Pending</h1>
-        <table class="table">
-            <thead>
-                
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                    <th>Ingredients</th>
-                    <th>Description</th>
-                    <th>Photo</th>
-                    <th>Cooking_time</th>
-                    <th>Preparation_time</th>
-                    <th>Calories</th>
-                    <th>Link</th>
-                    <th>Type</th>
-                    <th>Date_added</th>
-                    <th>Date_updated</th>
-                    <th>actions</th>
-                    
-                </tr>
-            </thead>
-            <tbody>
-            
-                
-            {% for recipe in recipes %}
-            {% if recipe.status == '0' %}
-                <tr>
-                    <td>{{ recipe.id }}</td>
-                    <td>{{ recipe.name }}</td>
-                    <td>{{ recipe.ingredients }}</td>
-                    <td>{{ recipe.description }}</td>
-                    <td>{{ recipe.photo }}</td>
-                    <td>{{ recipe.cookingTime }}</td>
-                    <td>{{ recipe.preparationTime }}</td>
-                    <td>{{ recipe.calories }}</td>
-                    <td>{{ recipe.link }}</td>
-                    <td>{{ recipe.type }}</td>
-                    <td>{{ recipe.dateAdded ? recipe.dateAdded|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ recipe.dateUpdated ? recipe.dateUpdated|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>
-                        <a class="btn btn-primary" href="{{ path('admin_app_recipe_show', {'id': recipe.id}) }}">Details</a>
-                        <a class="btn btn-success" href="{{ path('admin_app_approve', {'id': recipe.id}) }}">Approve</a>
-                        {{ include('recipe/_delete_form.html.twig') }}
-                    </td>
-                </tr>
-                {% elseif recipe.status == null %}
-                <tr>
-                    <td colspan="13">no records found</td>
-                </tr>
-                {% endif %}
-            {% endfor %}
-            
-            </tbody>
-        </table>
-    </div> #}
-
-    {# <div class="container">
-        <h1>Pending</h1>
-        <div class="recipe-table">
-            {% for recipe in recipes %}
-                {% if recipe.status == '0' %}
-                    <div class="recipe-row">
-                        <div class="recipe-header">Id:</div>
-                        <div class="recipe-data">{{ recipe.id }}</div>
-    
-                        <div class="recipe-header">Name:</div>
-                        <div class="recipe-data">{{ recipe.name }}</div>
-    
-                        <div class="recipe-header">Ingredients:</div>
-                        <div class="recipe-data">{{ recipe.ingredients }}</div>
-    
-                        <div class="recipe-header">Description:</div>
-                        <div class="recipe-data">{{ recipe.description }}</div>
-    
-                        <div class="recipe-header">Photo:</div>
-                        <div class="recipe-data">
-                            {% if recipe.photo %}
-                                <img src="{{ asset('pictures/' ~ recipe.photo) }}" alt="Recipe Photo" class="recipe-photo">
-                            {% else %}
-                                No photo
-                            {% endif %}
-                        </div>
-    
-                        <div class="recipe-header">Cooking Time:</div>
-                        <div class="recipe-data">{{ recipe.cookingTime }} min</div>
-    
-                        <div class="recipe-header">Preparation Time:</div>
-                        <div class="recipe-data">{{ recipe.preparationTime }} min</div>
-    
-                        <div class="recipe-header">Calories:</div>
-                        <div class="recipe-data">{{ recipe.calories }}</div>
-    
-                        <div class="recipe-header">Link:</div>
-                        <div class="recipe-data">
-                            {% if recipe.link %}
-                                <a href="{{ recipe.link }}" target="_blank">{{ recipe.link }}</a>
-                            {% else %}
-                                No link
-                            {% endif %}
-                        </div>
-    
-                        <div class="recipe-header">Type:</div>
-                        <div class="recipe-data">{{ recipe.type }}</div>
-    
-                        <div class="recipe-header">Date Added:</div>
-                        <div class="recipe-data">{{ recipe.dateAdded ? recipe.dateAdded|date('Y-m-d H:i:s') : 'N/A' }}</div>
-    
-                        <div class="recipe-header">Date Updated:</div>
-                        <div class="recipe-data">{{ recipe.dateUpdated ? recipe.dateUpdated|date('Y-m-d H:i:s') : 'N/A' }}</div>
-    
-                        <div class="recipe-header">Actions:</div>
-                        <div class="recipe-data">
-                            <a class="btn btn-details" href="{{ path('admin_app_recipe_show', {'id': recipe.id}) }}">Details</a>
-                            <a class="btn btn-success" href="{{ path('admin_app_approve', {'id': recipe.id}) }}">Approve</a>
-                            {{ include('recipe/_delete_form.html.twig') }}
-                        </div>
-                    </div>
-                {% endif %}
-            {% else %}
-                <p class="text-center text-muted">No records found</p>
-            {% endfor %}
-        </div>
-    </div> #}
-
     <div class="container">
         <h1>Pending</h1>
         
@@ -145,7 +20,16 @@
                         <div class="recipe-data">{{ recipe.name }}</div>
     
                         <div class="recipe-header">Ingredients:</div>
-                        <div class="recipe-data">{{ recipe.ingredients }}</div>
+                        <div class="recipe-data">
+                            {% set ingredients = recipe.ingredients %}
+                            <ul id="ingredients-list">
+                                {% for ingredient in ingredients %}                        
+                                <li class="list-group-item">
+                                    <span class="list-group-item__ingredient">{{ ingredient }}</span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
     
                         <div class="recipe-header">Description:</div>
                         <div class="recipe-data">{{ recipe.description|nl2br }}</div>
@@ -203,3 +87,4 @@
     
 
 {% endblock %}
+

@@ -67,14 +67,14 @@ function activateRecipeTypeButtons() {
     });
 }
 
-// Activate ingredient management
 function activateIngredientManagement() {
-    const input = document.getElementById('recipe_ingredients'); 
-    const ingredientsField = document.querySelector('input[name="recipe[ingredients]"]'); 
+    const hiddenInput = document.getElementById('recipe_ingredients'); 
+    const visibleInput = document.getElementById('recipe_ingredients-visible'); 
     const list = document.getElementById('ingredients-list'); 
     const ingredientsContainer = document.getElementById('ingredients-container'); 
+    const errorContainer = document.getElementById('ingredients-error');
 
-    if (!input || !ingredientsField || !list) return;
+    if (!hiddenInput || !visibleInput || !list) return;
 
     list.innerHTML = ''; 
 
@@ -85,12 +85,28 @@ function activateIngredientManagement() {
     document.querySelector('form').addEventListener('submit', handleFormSubmit);
 
     function handleAddIngredient() {
-        const ingredient = input.value.trim();
+        const ingredient = visibleInput.value.trim();        
 
-        if (ingredient) {            
+        if (ingredient) {
+            const existingItems = Array.from(list.querySelectorAll('li span.list-group-item__ingredient')).map(
+                span => span.textContent.trim()
+            );
+
+            if (existingItems.includes(ingredient)) {
+                errorContainer.style.display = 'inline-block';
+                errorContainer.textContent = 'This ingredient already exists. Please check if it is necessary.';
+                ingredientsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                
+                setTimeout(() => {
+                    errorContainer.style.display = 'none'; 
+                }, 5000);
+
+                return; 
+            }
+
             addIngredientToList(ingredient);
             updateIngredientsField();
-            input.value = '';
+            visibleInput.value = ''; 
         }
     }
 
@@ -101,21 +117,17 @@ function activateIngredientManagement() {
 
             setTimeout(() => {
                 li.remove();
+                updateIngredientsField();
             }, 700);
-
-            updateIngredientsField(); 
         }
     }
 
     function handleFormSubmit(e) {
         updateIngredientsField(); 
     
-        const errorContainer = document.getElementById('ingredients-error');
-    
-        if (!ingredientsField.value.trim()) {
+        if (!hiddenInput.value || hiddenInput.value === '[]') {
             e.preventDefault(); 
 
-            const ingredientsContainer = document.getElementById('ingredients-container');
             ingredientsContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
             errorContainer.style.display = 'inline-block';
@@ -127,18 +139,13 @@ function activateIngredientManagement() {
                     errorContainer.style.display = 'none'; 
                     errorContainer.classList.remove('fade-out'); 
                 }, 500); 
-            }, 5000); 
-        } else {
-            errorContainer.style.display = 'none'; 
+            }, 5000);
+
+            return; 
         }
-    }   
+    }
 
     function addIngredientToList(ingredient) {
-        const existingItems = Array.from(list.querySelectorAll('li span.list-group-item__ingredient')).map(
-            span => span.textContent.trim()
-        );
-        if (existingItems.includes(ingredient)) return;
-
         const li = document.createElement('li');
         li.className = 'list-group-item appear-animation';
         li.innerHTML = `
@@ -155,20 +162,33 @@ function activateIngredientManagement() {
     function updateIngredientsField() {
         const ingredients = [];
         list.querySelectorAll('li span.list-group-item__ingredient').forEach(span => {
-            const ingredientText = span.textContent.trim(); 
+            const ingredientText = span.textContent.trim();
             ingredients.push(ingredientText);
         });
-        ingredientsField.value = ingredients.join(', '); 
+
+        const jsonIngredients = JSON.stringify(ingredients); 
+        hiddenInput.value = jsonIngredients; 
+
+        visibleInput.value = ingredients.join(', '); 
     }
 
     function syncExistingIngredients() {
-        const initialIngredients = ingredientsField.value.split(',').map(ingredient => ingredient.trim());
-        initialIngredients.forEach(ingredient => {
-            if (ingredient) {
-                addIngredientToList(ingredient);
+        try {
+            const initialIngredients = JSON.parse(hiddenInput.value || '[]'); 
+            if (!Array.isArray(initialIngredients)) {
+                return;
             }
-        });
-        updateIngredientsField(); 
+
+            initialIngredients.forEach(ingredient => {
+                if (ingredient) {
+                    addIngredientToList(ingredient);
+                }
+            });
+
+            visibleInput.value = initialIngredients.join(', ');
+        } catch (error) {
+            console.error('Error parsing JSON in hiddenInput:', error);
+        }
     }
 }
 
@@ -178,6 +198,85 @@ document.addEventListener('turbo:load', initPage);
 
 
 // Validate file size and display flash messages with auto-scroll
+// function uploadLargePhoto() {
+//     const fileInput = document.getElementById("recipe_photo");
+//     const fileHint = document.getElementById("image-hint");
+//     const flashContainer = document.querySelector(".container.mt-3");
+
+//     if (!fileInput || !fileHint || !flashContainer) {
+//         return;
+//     }
+
+//     let isFileValid = true; 
+
+//     function formatFileSize(size) {
+//         if (size >= 1024 * 1024) {
+//             return (size / (1024 * 1024)).toFixed(2) + " MB";
+//         } else {
+//             return (size / 1024).toFixed(2) + " KB";
+//         }
+//     }
+
+//     fileInput.addEventListener("change", function (event) {
+//         const file = event.target.files[0];
+//         if (file) {
+//             const fileSize = formatFileSize(file.size);
+//             if (file.size > 2 * 1024 * 1024) {
+//                 fileHint.textContent = `The file is too large (${fileSize}). Please upload a file smaller than 2 MB.`;
+//                 fileHint.style.color = "red";
+//                 fileHint.style.fontWeight = "bold";
+//                 isFileValid = false;
+//                 fileInput.value = "";
+//                 addFlashMessage(`The file is too large (${fileSize}).`, "danger", fileHint);
+//             } else {
+//                 fileHint.textContent = `File is valid and ready to upload! (${fileSize})`;
+//                 fileHint.style.color = "green";
+//                 fileHint.style.fontWeight = "bold";
+//                 isFileValid = true;
+//             }
+//         } else {
+            
+//             isFileValid = true;
+//         }
+//     });
+
+//     const form = document.querySelector("form");
+//     if (form) {
+//         form.addEventListener("submit", function (event) {
+//             if (!isFileValid) {
+//                 event.preventDefault();
+//                 addFlashMessage("Please upload a valid file smaller than 2 MB.", "danger", fileHint);
+//             }
+//         });
+//     }
+
+//     function addFlashMessage(message, type, returnToElement) {
+//         const flashMessage = document.createElement("div");
+//         flashMessage.className = `alert alert-${type} alert-dismissible fade show`;
+//         flashMessage.role = "alert";
+//         flashMessage.innerHTML = `
+//             <p>${message}</p>
+//             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+//         `;
+
+//         flashContainer.appendChild(flashMessage);
+
+//         flashMessage.scrollIntoView({ behavior: "smooth", block: "center" }); 
+
+//         setTimeout(() => {
+//             flashMessage.classList.add("fade-out");
+//             setTimeout(() => {
+//                 flashMessage.remove();
+                
+//                 returnToElement.scrollIntoView({ behavior: "smooth", block: "center" });
+//             }, 500);
+//         }, 3000);
+//     }
+// }
+
+// =========================================================
+
+
 function uploadLargePhoto() {
     const fileInput = document.getElementById("recipe_photo");
     const fileHint = document.getElementById("image-hint");
@@ -187,7 +286,7 @@ function uploadLargePhoto() {
         return;
     }
 
-    let isFileValid = true; // Початково вважаємо, що файл валідний або відсутній
+    let isFileValid = true; 
 
     function formatFileSize(size) {
         if (size >= 1024 * 1024) {
@@ -199,8 +298,12 @@ function uploadLargePhoto() {
 
     fileInput.addEventListener("change", function (event) {
         const file = event.target.files[0];
+        const placeholderImage = document.querySelector(".image-placeholder img");
+        const imagePlaceholder = document.querySelector(".image-placeholder");
+    
         if (file) {
             const fileSize = formatFileSize(file.size);
+
             if (file.size > 2 * 1024 * 1024) {
                 fileHint.textContent = `The file is too large (${fileSize}). Please upload a file smaller than 2 MB.`;
                 fileHint.style.color = "red";
@@ -208,17 +311,55 @@ function uploadLargePhoto() {
                 isFileValid = false;
                 fileInput.value = "";
                 addFlashMessage(`The file is too large (${fileSize}).`, "danger", fileHint);
-            } else {
+                placeholderImage.src = "/pictures/image-upload.png";
+                imagePlaceholder.classList.remove("image-placeholder--large");
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                fileHint.textContent = "Invalid file type. Please upload an image.";
+                fileHint.style.color = "red";
+                fileInput.value = "";
+                isFileValid = false;
+                placeholderImage.src = "/pictures/image-upload.png";
+                imagePlaceholder.classList.remove("image-placeholder--large");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                if (placeholderImage) {
+                    
+                    placeholderImage.classList.add("fade-out");
+
+                    setTimeout(() => {
+                        placeholderImage.src = e.target.result; 
+
+                        placeholderImage.classList.remove("fade-out");
+                        placeholderImage.classList.add("fade-in");
+
+                        setTimeout(() => {
+                            placeholderImage.classList.remove("fade-in");
+                        }, 500); 
+                    }, 500); 
+                }
+    
                 fileHint.textContent = `File is valid and ready to upload! (${fileSize})`;
                 fileHint.style.color = "green";
                 fileHint.style.fontWeight = "bold";
                 isFileValid = true;
-            }
+    
+                imagePlaceholder.classList.add("image-placeholder--large");
+            };
+            reader.readAsDataURL(file); 
         } else {
-            // Якщо файл не вибрано, вважаємо це валідним
             isFileValid = true;
+            placeholderImage.src = "/pictures/image-upload.png";
+            imagePlaceholder.classList.remove("image-placeholder--large");
         }
     });
+    
+    
 
     const form = document.querySelector("form");
     if (form) {
@@ -256,10 +397,10 @@ function uploadLargePhoto() {
 
 
 
+// =========================================================
 
 document.addEventListener('DOMContentLoaded', uploadLargePhoto);
 document.addEventListener('turbo:render', uploadLargePhoto);
-// document.addEventListener('turbo:load', uploadLargePhoto);
 
 
 // Check user during the registration
@@ -378,7 +519,6 @@ function checkUser() {
                 typeEffect(feedback, 'User with this email address is already registered.', 30);
             }
         });
-        // console.log('Submit listener added'); 
     }
 }
 

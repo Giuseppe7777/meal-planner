@@ -45,6 +45,8 @@ final class HomeController extends AbstractController
             }
             $recipe->setAuthor($user);
             $recipe->setStatus(False);
+            $ingredientsJson = $form->get('ingredients')->getData();
+            $recipe->setIngredients($ingredientsJson);
             $entityManager->persist($recipe);
             $entityManager->flush();
 
