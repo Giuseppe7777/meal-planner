@@ -198,85 +198,6 @@ document.addEventListener('turbo:load', initPage);
 
 
 // Validate file size and display flash messages with auto-scroll
-// function uploadLargePhoto() {
-//     const fileInput = document.getElementById("recipe_photo");
-//     const fileHint = document.getElementById("image-hint");
-//     const flashContainer = document.querySelector(".container.mt-3");
-
-//     if (!fileInput || !fileHint || !flashContainer) {
-//         return;
-//     }
-
-//     let isFileValid = true; 
-
-//     function formatFileSize(size) {
-//         if (size >= 1024 * 1024) {
-//             return (size / (1024 * 1024)).toFixed(2) + " MB";
-//         } else {
-//             return (size / 1024).toFixed(2) + " KB";
-//         }
-//     }
-
-//     fileInput.addEventListener("change", function (event) {
-//         const file = event.target.files[0];
-//         if (file) {
-//             const fileSize = formatFileSize(file.size);
-//             if (file.size > 2 * 1024 * 1024) {
-//                 fileHint.textContent = `The file is too large (${fileSize}). Please upload a file smaller than 2 MB.`;
-//                 fileHint.style.color = "red";
-//                 fileHint.style.fontWeight = "bold";
-//                 isFileValid = false;
-//                 fileInput.value = "";
-//                 addFlashMessage(`The file is too large (${fileSize}).`, "danger", fileHint);
-//             } else {
-//                 fileHint.textContent = `File is valid and ready to upload! (${fileSize})`;
-//                 fileHint.style.color = "green";
-//                 fileHint.style.fontWeight = "bold";
-//                 isFileValid = true;
-//             }
-//         } else {
-            
-//             isFileValid = true;
-//         }
-//     });
-
-//     const form = document.querySelector("form");
-//     if (form) {
-//         form.addEventListener("submit", function (event) {
-//             if (!isFileValid) {
-//                 event.preventDefault();
-//                 addFlashMessage("Please upload a valid file smaller than 2 MB.", "danger", fileHint);
-//             }
-//         });
-//     }
-
-//     function addFlashMessage(message, type, returnToElement) {
-//         const flashMessage = document.createElement("div");
-//         flashMessage.className = `alert alert-${type} alert-dismissible fade show`;
-//         flashMessage.role = "alert";
-//         flashMessage.innerHTML = `
-//             <p>${message}</p>
-//             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-//         `;
-
-//         flashContainer.appendChild(flashMessage);
-
-//         flashMessage.scrollIntoView({ behavior: "smooth", block: "center" }); 
-
-//         setTimeout(() => {
-//             flashMessage.classList.add("fade-out");
-//             setTimeout(() => {
-//                 flashMessage.remove();
-                
-//                 returnToElement.scrollIntoView({ behavior: "smooth", block: "center" });
-//             }, 500);
-//         }, 3000);
-//     }
-// }
-
-// =========================================================
-
-
 function uploadLargePhoto() {
     const fileInput = document.getElementById("recipe_photo");
     const fileHint = document.getElementById("image-hint");
@@ -286,7 +207,7 @@ function uploadLargePhoto() {
         return;
     }
 
-    let isFileValid = true; 
+    let isFileValid = true;
 
     function formatFileSize(size) {
         if (size >= 1024 * 1024) {
@@ -296,108 +217,103 @@ function uploadLargePhoto() {
         }
     }
 
+    function animateFileSize(displayElement, finalSize, message) {
+        let currentSize = 0;
+        const speedUpTo = finalSize * 0.97; 
+        const slowDownAt = finalSize - 6; 
+        const interval = setInterval(() => {
+            if (currentSize < speedUpTo) {
+                currentSize += Math.ceil(finalSize / 50); 
+            } else if (currentSize < slowDownAt) {
+                currentSize += 1; 
+            } else {
+                currentSize += 0.05; 
+            }
+    
+            if (currentSize >= finalSize) {
+                currentSize = finalSize; 
+                clearInterval(interval);
+            }
+
+            displayElement.textContent = `${message} ${Math.round(currentSize)} KB`;
+        }, 50); 
+    }
+
     fileInput.addEventListener("change", function (event) {
         const file = event.target.files[0];
         const placeholderImage = document.querySelector(".image-placeholder img");
         const imagePlaceholder = document.querySelector(".image-placeholder");
     
         if (file) {
-            const fileSize = formatFileSize(file.size);
-
-            if (file.size > 2 * 1024 * 1024) {
-                fileHint.textContent = `The file is too large (${fileSize}). Please upload a file smaller than 2 MB.`;
-                fileHint.style.color = "red";
-                fileHint.style.fontWeight = "bold";
-                isFileValid = false;
-                fileInput.value = "";
-                addFlashMessage(`The file is too large (${fileSize}).`, "danger", fileHint);
-                placeholderImage.src = "/pictures/image-upload.png";
-                imagePlaceholder.classList.remove("image-placeholder--large");
-                return;
-            }
-
-            if (!file.type.startsWith("image/")) {
-                fileHint.textContent = "Invalid file type. Please upload an image.";
-                fileHint.style.color = "red";
-                fileInput.value = "";
-                isFileValid = false;
-                placeholderImage.src = "/pictures/image-upload.png";
-                imagePlaceholder.classList.remove("image-placeholder--large");
-                return;
-            }
+            const fileSize = file.size / 1024; 
 
             const reader = new FileReader();
             reader.onload = function (e) {
                 if (placeholderImage) {
-                    
                     placeholderImage.classList.add("fade-out");
-
+    
                     setTimeout(() => {
-                        placeholderImage.src = e.target.result; 
-
+                        placeholderImage.src = e.target.result;
+    
                         placeholderImage.classList.remove("fade-out");
                         placeholderImage.classList.add("fade-in");
-
+    
                         setTimeout(() => {
                             placeholderImage.classList.remove("fade-in");
-                        }, 500); 
-                    }, 500); 
+                        }, 500);
+                    }, 500);
                 }
-    
-                fileHint.textContent = `File is valid and ready to upload! (${fileSize})`;
-                fileHint.style.color = "green";
-                fileHint.style.fontWeight = "bold";
-                isFileValid = true;
-    
                 imagePlaceholder.classList.add("image-placeholder--large");
             };
-            reader.readAsDataURL(file); 
+            reader.readAsDataURL(file);
+
+            if (file.size > 2 * 1024 * 1024) {
+                fileHint.style.color = "red";
+                fileHint.style.fontWeight = "bold";
+                isFileValid = false;
+                fileHint.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                animateFileSize(fileHint, Math.round(fileSize), "The file is too large. File size:");
+                return;
+            }
+
+            if (!file.type.startsWith("image/")) {
+                fileHint.textContent = "Invalid file type. Supported formats: JPEG, JPG";
+                fileHint.style.color = "red";
+                fileInput.value = "";
+                isFileValid = false;
+                fileHint.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            fileHint.style.color = "green";
+            fileHint.style.fontWeight = "bold";
+            animateFileSize(fileHint, Math.round(fileSize), "File is valid and ready to upload! File size:");
+            fileHint.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            isFileValid = true;
         } else {
             isFileValid = true;
             placeholderImage.src = "/pictures/image-upload.png";
             imagePlaceholder.classList.remove("image-placeholder--large");
+            fileHint.textContent = "";
         }
     });
     
-    
 
     const form = document.querySelector("form");
-    if (form) {
-        form.addEventListener("submit", function (event) {
-            if (!isFileValid) {
-                event.preventDefault();
-                addFlashMessage("Please upload a valid file smaller than 2 MB.", "danger", fileHint);
-            }
-        });
-    }
-
-    function addFlashMessage(message, type, returnToElement) {
-        const flashMessage = document.createElement("div");
-        flashMessage.className = `alert alert-${type} alert-dismissible fade show`;
-        flashMessage.role = "alert";
-        flashMessage.innerHTML = `
-            <p>${message}</p>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        `;
-
-        flashContainer.appendChild(flashMessage);
-
-        flashMessage.scrollIntoView({ behavior: "smooth", block: "center" }); 
-
-        setTimeout(() => {
-            flashMessage.classList.add("fade-out");
-            setTimeout(() => {
-                flashMessage.remove();
-                
-                returnToElement.scrollIntoView({ behavior: "smooth", block: "center" });
-            }, 500);
-        }, 3000);
-    }
+        if (form) {
+            form.addEventListener("submit", function (event) {
+                if (!isFileValid) {
+                    event.preventDefault();
+                    fileHint.textContent = "The file is too large. File size max 2 MB";
+                    fileHint.style.color = "red";
+                    fileHint.style.fontWeight = "bold";
+                    fileHint.scrollIntoView({behavior: 'smooth', block: 'center'});
+                }
+            });
+        }
+    
 }
-
-
-
-// =========================================================
 
 document.addEventListener('DOMContentLoaded', uploadLargePhoto);
 document.addEventListener('turbo:render', uploadLargePhoto);
