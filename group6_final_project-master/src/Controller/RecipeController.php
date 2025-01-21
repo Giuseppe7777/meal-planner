@@ -40,6 +40,35 @@ final class RecipeController extends AbstractController
         return $this->redirectToRoute('admin_app_recipe_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    // #[Route('/new', name: 'app_recipe_new', methods: ['GET', 'POST'])]
+    // public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
+    // {
+    //     $recipe = new Recipe();
+    //     $form = $this->createForm(RecipeType::class, $recipe);
+    //     $form->handleRequest($request);
+    //     $user = $this->getUser();
+    //     if ($form->isSubmitted() && $form->isValid()) {
+    //         $imageFile = $form->get('photo')->getData();
+    //         if ($imageFile) {
+    //         $imageFileName = $fileUploader->upload($imageFile);
+    //         $recipe->setPhoto($imageFileName);
+    //         }else{
+    //             $recipe->setPhoto("recipe.jpg");
+    //         }
+    //         $recipe->setAuthor($user);
+    //         $recipe->setStatus(True);
+    //         $entityManager->persist($recipe);
+    //         $entityManager->flush();
+
+    //         return $this->redirectToRoute('admin_app_recipe_index', [], Response::HTTP_SEE_OTHER);
+    //     }
+
+    //     return $this->render('recipe/new.html.twig', [
+    //         'recipe' => $recipe,
+    //         'form' => $form,
+    //     ]);
+    // }
+
     #[Route('/new', name: 'app_recipe_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
@@ -47,6 +76,7 @@ final class RecipeController extends AbstractController
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
         $user = $this->getUser();
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $imageFile = $form->get('photo')->getData();
             if ($imageFile) {
@@ -57,9 +87,13 @@ final class RecipeController extends AbstractController
             }
             $recipe->setAuthor($user);
             $recipe->setStatus(True);
+            $ingredientsJson = $form->get('ingredients')->getData();
+            $recipe->setIngredients($ingredientsJson);
             $entityManager->persist($recipe);
             $entityManager->flush();
 
+            $this->addFlash('success', 'Recipe has been added.');
+            
             return $this->redirectToRoute('admin_app_recipe_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -86,13 +120,17 @@ final class RecipeController extends AbstractController
     #[Route('/{id}/edit', name: 'app_recipe_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Recipe $recipe, EntityManagerInterface $entityManager, FileUploader $fileUploader): Response
     {
+        
         $form = $this->createForm(RecipeType::class, $recipe);
         $form->handleRequest($request);
-        $user = $this->getUser();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        // ***************************
+            /** @var \App\Entity\User $user */
+            $user = $this->getUser(); // you get user from system
+        //**************************** */
+
+        if ($form->isSubmitted() && $form->isValid()) { 
             $imageFile = $form->get('photo')->getData();
-            
             if ($imageFile) {
                 if($recipe->getPhoto() != "recipe.jpg") {
                     unlink($this->getParameter('photo_directory') . "/" . $recipe->getPhoto());
@@ -106,18 +144,25 @@ final class RecipeController extends AbstractController
 
                 $recipe->setPhoto('recipe.jpg');
             }
-            $recipe->setStatus(True);
+
+            $ingredientsInput = $form->get('ingredients')->getData();
+            $recipe->setIngredients($ingredientsInput);
+
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_app_recipe_index', [], Response::HTTP_SEE_OTHER);
-        }
-        /** @var \App\Entity\User|null $user */
-        $user = $this->getUser();
+            $this->addFlash('success', 'Recipe has been updated.');
 
+            return $this->redirectToRoute('app_recipe_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+         /** @var \App\Entity\User $user */
         return $this->render('recipe/edit.html.twig', [
             'recipe' => $recipe,
             'form' => $form,
-            'userId' => $user->getId(),
+
+            // *********************************************************
+            'userId' => $user->getId(), // you sent userId to template
+            // *********************************************************
         ]);
     }
 

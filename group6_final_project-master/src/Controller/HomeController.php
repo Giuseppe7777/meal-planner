@@ -88,7 +88,7 @@ final class HomeController extends AbstractController
             $user = $this->getUser(); // you get user from system
         //**************************** */
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) { 
             $imageFile = $form->get('photo')->getData();
             if ($imageFile) {
                 if($recipe->getPhoto() != "recipe.jpg") {
@@ -103,6 +103,10 @@ final class HomeController extends AbstractController
 
                 $recipe->setPhoto('recipe.jpg');
             }
+
+            $ingredientsInput = $form->get('ingredients')->getData();
+            $recipe->setIngredients($ingredientsInput);
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Recipe has been updated.');

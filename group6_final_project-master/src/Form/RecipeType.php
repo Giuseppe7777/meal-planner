@@ -31,9 +31,11 @@ class RecipeType extends AbstractType
                 'label_attr' => ['class' => 'form-label'], 
             ))
             ->add('ingredients', HiddenType::class, array(
+                'mapped' => false,
                 'required' => false,
                 'label' => false,     
                 'label_attr' => ['class' => 'form-label'],
+                'data' => json_encode($options['data']->getIngredients() ?? []),
             ))
             ->add('description', TextareaType::class, array(
                 'attr' => [

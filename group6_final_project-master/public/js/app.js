@@ -227,7 +227,7 @@ function uploadLargePhoto() {
             } else if (currentSize < slowDownAt) {
                 currentSize += 1; 
             } else {
-                currentSize += 0.05; 
+                currentSize += 0.1; 
             }
     
             if (currentSize >= finalSize) {

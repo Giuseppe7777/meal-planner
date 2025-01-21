@@ -31,7 +31,17 @@
             </div>
             <div class="meal-detail">
                 <div class="label">Ingredients</div>
-                <div class="value">{{ recipe.ingredients ?? 'No Ingredients Available' }}</div>
+                <div class="value">
+                    {% if recipe.ingredients is iterable %}
+                        <ul>
+                            {% for ingredient in recipe.ingredients %}
+                                <li>{{ ingredient }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No Ingredients Available</p>
+                    {% endif %}
+                </div>
             </div>
             <div class="meal-detail">
                 <div class="label">Recipe description</div>
