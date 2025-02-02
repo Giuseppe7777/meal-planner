@@ -59,7 +59,7 @@ final class HomeController extends AbstractController
             'recipe' => $recipe,
             'form' => $form,
         ]);
-    }
+    }    
 
     #[Route('/{id<\d+>}', name: 'app_recipe_show', methods: ['GET'])]
     public function show(Recipe $recipe): Response
